@@ -4,15 +4,15 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Marketplace from "../pages/Marketplace";
 import AboutUs from "../pages/AboutUs";
-import Events from "../pages/Events"
-import PlanEvent from "../pages/PlanEvent"
+import Events from "../pages/Events";
+import PlanEvent from "../pages/PlanEvent";
 // import Cart from "../pages/Cart";
 // import Product from "../pages/product";
 // import "../styles/Contents.css";
 
 function Contents() {
   return (
-    <div className="contents" style={{paddingTop:"116px"}}>
+    <div className="contents">
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/marketplace" element={<Marketplace />}></Route>
