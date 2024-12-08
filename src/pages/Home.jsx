@@ -15,7 +15,7 @@ function DesktopLayout() {
       <div className="home_container">
         <h1>EVENTFLOW</h1>
         <div className="carousel">
-          <Carousel data-bs-theme="dark">
+          <Carousel fade data-bs-theme="dark">
             <Carousel.Item>
               <img
                 className="d-block w-100"
