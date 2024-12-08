@@ -1,7 +1,7 @@
 import { useMediaQuery } from "react-responsive";
 import stats from "../assets/about-us.png";
-import newImage from "../assets/newImage.jpg";
-//import "../styles/AboutUs.css";
+import newImage from "../assets/newImage.png";
+import "../styles/AboutUs.css";
 import BlurryImageLoader from "../components/BlurryImageLoader";
 
 function AboutUs() {
