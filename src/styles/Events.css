@@ -1,0 +1,61 @@
+/* EventsList.css */
+.events-list-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.event-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s;
+}
+
+.event-card:hover {
+  transform: translateY(-10px);
+}
+
+.event-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.event-description {
+  font-size: 1em;
+  color: #555;
+  margin-top: 10px;
+}
+
+.event-date,
+.event-time,
+.event-host,
+.event-location {
+  font-size: 1.1em;
+  margin-top: 10px;
+  color: #333;
+}
+
+.register-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.register-button:hover {
+  background-color: #0056b3;
+}
