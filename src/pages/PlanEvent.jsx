@@ -7,96 +7,95 @@ function PlanEvent() {
 function DesktopLayout() {
   return (
     <>
-    <div className="eventpage">
-      <h1 class="eventtitle">Plan Event</h1>
+      <div className="eventpage">
+        <h1 className="eventtitle">Plan Event</h1>
 
-      <div class="event">
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Date
-          </label>
-          <input
-            type="date"
-            class="form-control"
-            id="exampleFormControlInput2"
-          />
-        </div>
+        <div className="event">
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">
+              Date
+            </label>
+            <input
+              type="date"
+              className="form-control"
+              id="exampleFormControlInput2"
+            />
+          </div>
 
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Start Time
-          </label>
-          <input
-            type="time"
-            class="form-control"
-            id="exampleFormControlInput2"
-            placeholder="name@example.com"
-          />
-        </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">
+              Start Time
+            </label>
+            <input
+              type="time"
+              className="form-control"
+              id="exampleFormControlInput2"
+              placeholder="name@example.com"
+            />
+          </div>
 
-        
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            End Time
-          </label>
-          <input
-            type="time"
-            class="form-control"
-            id="exampleFormControlInput2"
-            placeholder="name@example.com"
-          />
-        </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">
+              End Time
+            </label>
+            <input
+              type="time"
+              className="form-control"
+              id="exampleFormControlInput2"
+              placeholder="name@example.com"
+            />
+          </div>
 
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Event Name
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput2"
-          />
-        </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">
+              Host
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="exampleFormControlInput2"
+            />
+          </div>
 
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">
-            Address
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput2"
-          />
-        </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">
+              Event Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="exampleFormControlInput2"
+            />
+          </div>
 
-        <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label">
-            Description
-          </label>
-          <textarea
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-          ></textarea>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">
+              Address
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="exampleFormControlInput2"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlTextarea1" className="form-label">
+              Description
+            </label>
+            <textarea
+              className="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+          </div>
+          <div className="eventbtn">
+            <div className="col-auto">
+              <button type="submit" className="btn btn-primary mb-3">
+                Create Event
+              </button>
+            </div>
+          </div>
         </div>
-
-        <div class="mb-3">
-          <label for="formFile" class="form-label">
-            Add An Image
-          </label>
-          <input class="form-control" type="file" id="formFile" />
-        </div>
-        
-
-        <div className="eventbtn">
-        <div  class="col-auto">
-          <button type="submit" class="btn btn-primary mb-3">
-            Create Event
-          </button>
-        </div>
-        </div>
-
-      </div>
       </div>
     </>
   );
