@@ -23,7 +23,20 @@ function DesktopLayout() {
 
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">
-            Time
+            Start Time
+          </label>
+          <input
+            type="time"
+            class="form-control"
+            id="exampleFormControlInput2"
+            placeholder="name@example.com"
+          />
+        </div>
+
+        
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">
+            End Time
           </label>
           <input
             type="time"
@@ -74,7 +87,7 @@ function DesktopLayout() {
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-primary mb-3">
-            Submit
+            Creare Event
           </button>
         </div>
       </div>
