@@ -100,7 +100,7 @@ function Marketplace() {
 
   return (
     <div className="marketplace-container">
-      <FilterSidebar
+      <Sidebar
         filterOptions={filterOptions}
         onFilterChange={handleFilterChange}
       />

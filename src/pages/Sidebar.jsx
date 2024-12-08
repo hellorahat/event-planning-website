@@ -1,7 +1,7 @@
 import { useState } from "react";
 // import "../styles/SideBar.css";
 
-function FilterSidebar({ onFilterChange, filterOptions }) {
+function Sidebar({ onFilterChange, filterOptions }) {
   const [openSection, setOpenSection] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState({});
 
@@ -71,4 +71,4 @@ function FilterSidebar({ onFilterChange, filterOptions }) {
   );
 }
 
-export default FilterSidebar;
+export default Sidebar;
