@@ -1,0 +1,18 @@
+#main-nav-button {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+#main-nav-button:hover {
+    color: rgb(0, 255, 55);
+    cursor: pointer;
+}
+
+.cartIcon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7470%) hue-rotate(32deg) brightness(108%) contrast(100%);
+    transition: filter 0.1s;
+}
+
+.cartIcon:hover {
+    filter: brightness(0) saturate(100%) invert(68%) sepia(68%) saturate(3778%) hue-rotate(87deg) brightness(99%) contrast(110%);
+}
