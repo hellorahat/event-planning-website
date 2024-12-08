@@ -27,8 +27,7 @@
 .carousel-caption {
   font-family: "Italianno";
   font-size: 100px;
-  position: relative;
-  right: 15%;
-  bottom: 20px;
-  left: 15%;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
 }
