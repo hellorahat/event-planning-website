@@ -1,6 +1,7 @@
 import Contents from "./components/Contents"
 import NavBar from "./components/NavBar.jsx"
 import Footer from "./components/Footer"
+import Banner from "./components/Banner.jsx"
 // import {Elements} from '@stripe/react-stripe-js';
 // import {loadStripe} from '@stripe/stripe-js';
 
@@ -9,6 +10,7 @@ function App() {
 
   return (
     <>
+      <Banner />
       <NavBar />
       {/* <Elements stripe={stripePromise}> */}
         <Contents />
