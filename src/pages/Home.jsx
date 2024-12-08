@@ -12,45 +12,43 @@ function Home() {
 function DesktopLayout() {
   return (
     <>
-      <h1>EVENTFLOW</h1>
-      <Carousel data-bs-theme="dark">
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={carouselevent1}
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <Link to="/catalog" className="watch-caption">
-              Cartier
-            </Link>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={carouselevent2}
-            alt="Second slide"
-          />
-          <Carousel.Caption>
-            <Link to="/catalog" className="watch-caption">
-              Omega
-            </Link>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={carouselevent3}
-            alt="Third slide"
-          />
-          <Carousel.Caption>
-            <Link to="/catalog" className="watch-caption">
-              Rolex
-            </Link>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+      <div className="home_container">
+        <h1>EVENTFLOW</h1>
+        <div className="carousel">
+          <Carousel data-bs-theme="dark">
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src={carouselevent1}
+                alt="First slide"
+              />
+              <Carousel.Caption className="carousel-caption">
+                EVENTFLOW
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src={carouselevent2}
+                alt="Second slide"
+              />
+              <Carousel.Caption className="carousel-caption">
+                EVENTFLOW
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src={carouselevent3}
+                alt="Third slide"
+              />
+              <Carousel.Caption className="carousel-caption">
+                EVENTFLOW
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
+        </div>
+      </div>
     </>
   );
 }
