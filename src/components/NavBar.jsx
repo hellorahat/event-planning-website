@@ -28,7 +28,7 @@ function DesktopLayout() {
     )
   }
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-dark bg-gradient fixed-top"
+    <nav className="navbar navbar-expand-lg navbar-light bg-primary bg-gradient fixed-top"
          style={{marginTop:"30px"}}
     >
       <div className="container-fluid">

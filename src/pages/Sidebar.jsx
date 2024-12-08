@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/SideBar.css";
+// import "../styles/SideBar.css";
 
 function FilterSidebar({ onFilterChange, filterOptions }) {
   const [openSection, setOpenSection] = useState(null);

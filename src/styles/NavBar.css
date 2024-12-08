@@ -4,7 +4,7 @@
 }
 
 #main-nav-button:hover {
-    color: rgb(0, 255, 55);
+    color: rgb(0, 247, 255);
     cursor: pointer;
 }
 
@@ -14,5 +14,5 @@
 }
 
 .cartIcon:hover {
-    filter: brightness(0) saturate(100%) invert(68%) sepia(68%) saturate(3778%) hue-rotate(87deg) brightness(99%) contrast(110%);
+    filter: brightness(0) saturate(100%) invert(82%) sepia(31%) saturate(5524%) hue-rotate(134deg) brightness(105%) contrast(107%);
 }
