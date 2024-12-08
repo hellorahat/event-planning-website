@@ -12,7 +12,7 @@ import PlanEvent from "../pages/PlanEvent"
 
 function Contents() {
   return (
-    <div className="contents">
+    <div className="contents" style={{paddingTop:"86px"}}>
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/marketplace" element={<Marketplace />}></Route>
