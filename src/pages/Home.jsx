@@ -22,7 +22,7 @@ function DesktopLayout() {
                 src={carouselevent1}
                 alt="First slide"
               />
-              <Carousel.Caption className="carousel-caption">
+              <Carousel.Caption className="carousel-caption text-white">
                 EVENTFLOW
               </Carousel.Caption>
             </Carousel.Item>
@@ -32,7 +32,7 @@ function DesktopLayout() {
                 src={carouselevent2}
                 alt="Second slide"
               />
-              <Carousel.Caption className="carousel-caption">
+              <Carousel.Caption className="carousel-caption text-white">
                 EVENTFLOW
               </Carousel.Caption>
             </Carousel.Item>
@@ -42,7 +42,7 @@ function DesktopLayout() {
                 src={carouselevent3}
                 alt="Third slide"
               />
-              <Carousel.Caption className="carousel-caption">
+              <Carousel.Caption className="carousel-caption text-white">
                 EVENTFLOW
               </Carousel.Caption>
             </Carousel.Item>
