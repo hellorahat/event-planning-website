@@ -8,9 +8,9 @@ function Login() {
 function DesktopLayout() {
   return (
     <>
-        <div className="menu-holder">
-            <AccountMenu />
-        </div>
+      <div className="menu-holder">
+          <AccountMenu />
+      </div>
     </>
   );
 }

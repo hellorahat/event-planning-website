@@ -8,11 +8,11 @@
     cursor: pointer;
 }
 
-.cartIcon {
+.icon {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7470%) hue-rotate(32deg) brightness(108%) contrast(100%);
     transition: filter 0.1s;
 }
 
-.cartIcon:hover {
+.icon:hover {
     filter: brightness(0) saturate(100%) invert(82%) sepia(31%) saturate(5524%) hue-rotate(134deg) brightness(105%) contrast(107%);
 }

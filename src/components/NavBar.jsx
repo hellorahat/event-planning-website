@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import AccountMenu from "../components/AccountMenu"
 // import { UserProvider } from "../utility/UserContext";
 import logo from "../assets/Logo.svg";
-import cartIcon from "../assets/cart.svg"
+import iconCart from "../assets/cart.svg"
+import iconFavorite from "../assets/favorite.svg"
+import iconAccount from "../assets/account.svg"
+import iconSearch from "../assets/search.svg"
 import "../styles/NavBar.css";
 
 function NavBar() {
@@ -16,20 +19,9 @@ function NavBar() {
 }
 
 function DesktopLayout() {
-  const [isAccountVisible, setAccountVisible] = useState(false);
-  const handleClickLogin = () => {
-    setAccountVisible((prevState) => !prevState);
-  }
-  const renderAccountMenu = () => {
-    return (
-      isAccountVisible && (
-        <AccountMenu />
-      )
-    )
-  }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-primary bg-gradient fixed-top"
-         style={{marginTop:"30px"}}
+         style={{marginTop:"30px", paddingTop:"10px", paddingBottom:"10px"}}
     >
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
@@ -37,42 +29,27 @@ function DesktopLayout() {
         </Link>
         <div className="d-flex ms-auto">
           <div className="nav-item">
-            <Link to="/events" id="main-nav-button" className="nav-link">
-              <p className="mt-4"
-                style={{ marginLeft: "75px" }}
-              >Events</p>
+            <Link to="/cart" id="main-nav-button" className="nav-link">
+              <img className="icon mt-1" src={iconSearch} alt="cart" width="30" height="30"
+                 style={{ marginLeft: "30px"}}></img>
             </Link>
-          </div>
-          <div className="nav-item">
-            <Link to="/marketplace" id="main-nav-button" className="nav-link">
-              <p className="mt-4"
-                 style={{ marginLeft: "75px" }}
-              >Marketplace</p>
-            </Link>
-          </div>
-          <div className="nav-item">
-            <Link to="/about-us" id="main-nav-button" className="nav-link">
-              <p className="mt-4"
-                 style={{ marginLeft: "75px" }}
-              >About Us</p>
-            </Link>
-          </div>
-          <div className="nav-item">
-            <Link to="/plan-event" id="main-nav-button" className="nav-link">
-              <p className="mt-4"
-                 style={{ marginLeft: "75px" }}
-              >Plan Event</p>
-            </Link>
-          </div>
-          <div className="nav-item">
-            <Link to="/login" className="nav-link mt-4" id="main-nav-button"
-               style={{ marginLeft: "75px" }}
-            >Log In</Link>
           </div>
           <div className="nav-item">
             <Link to="/cart" id="main-nav-button" className="nav-link">
-              <img className="cartIcon mt-4" src={cartIcon} alt="cart" width="35" height="35"
-                 style={{ marginLeft: "60px", marginRight: "30px"}}></img>
+              <img className="icon mt-1" src={iconAccount} alt="cart" width="30" height="30"
+                 style={{ marginLeft: "30px"}}></img>
+            </Link>
+          </div>
+          <div className="nav-item">
+            <Link to="/cart" id="main-nav-button" className="nav-link">
+              <img className="icon mt-1" src={iconFavorite} alt="cart" width="30" height="30"
+                 style={{ marginLeft: "30px"}}></img>
+            </Link>
+          </div>
+          <div className="nav-item">
+            <Link to="/cart" id="main-nav-button" className="nav-link">
+              <img className="icon mt-1" src={iconCart} alt="cart" width="30" height="30"
+                 style={{ marginLeft: "30px", marginRight: "15px"}}></img>
             </Link>
           </div>
         </div>
