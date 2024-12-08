@@ -3,6 +3,8 @@ import NavBar from "./components/NavBar.jsx";
 import Footer from "./components/Footer";
 import Banner from "./components/Banner.jsx";
 import Redirectory from "./components/Redirectory.jsx";
+import { UserProvider } from "./utility/UserContext.jsx"
+import "./styles/App.css"
 // import {Elements} from '@stripe/react-stripe-js';
 // import {loadStripe} from '@stripe/stripe-js';
 
@@ -14,8 +16,11 @@ function App() {
       <NavBar />
       <Redirectory />
       {/* <Elements stripe={stripePromise}> */}
-      <Contents />
+      <UserProvider>
+        <Contents />
+      </UserProvider>
       {/* </Elements> */}
+      <div className="placeholder-space"></div>
       <Footer />
     </>
   );

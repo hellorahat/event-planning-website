@@ -4,6 +4,9 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Marketplace from "../pages/Marketplace";
 import AboutUs from "../pages/AboutUs";
+import Events from "../pages/Events"
+import PlanEvent from "../pages/PlanEvent"
+import Login from "../pages/Login";
 import Events from "../pages/Events";
 import PlanEvent from "../pages/PlanEvent";
 // import Cart from "../pages/Cart";
@@ -19,6 +22,7 @@ function Contents() {
         <Route path="/about-us" element={<AboutUs />}></Route>
         <Route path="/events" element={<Events />}></Route>
         <Route path="/plan-event" element={<PlanEvent />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         {/* <Route path="/cart" element={<Cart />}></Route>
         <Route path="/product/:id" element={<Product />}></Route> */}
       </Routes>

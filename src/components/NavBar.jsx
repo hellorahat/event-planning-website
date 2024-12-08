@@ -65,9 +65,9 @@ function DesktopLayout() {
             </Link>
           </div>
           <div className="nav-item">
-            <p className="nav-link mt-4" id="main-nav-button"
+            <Link to="/login" className="nav-link mt-4" id="main-nav-button"
                style={{ marginLeft: "75px" }}
-            >Log In</p>
+            >Log In</Link>
           </div>
           <div className="nav-item">
             <Link to="/cart" id="main-nav-button" className="nav-link">
