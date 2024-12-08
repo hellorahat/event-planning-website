@@ -4,8 +4,6 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Marketplace from "../pages/Marketplace";
 import AboutUs from "../pages/AboutUs";
-import Events from "../pages/Events"
-import PlanEvent from "../pages/PlanEvent"
 import Login from "../pages/Login";
 import Events from "../pages/Events";
 import PlanEvent from "../pages/PlanEvent";
