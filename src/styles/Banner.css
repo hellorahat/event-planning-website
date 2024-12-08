@@ -1,0 +1,16 @@
+.full-width-rectangle {
+    background-color: #18571C;
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 250px;
+  }
+  
+  .rectangle-text {
+    color: white;
+    font-size: 16px;
+    margin: 0;
+  }
+  
