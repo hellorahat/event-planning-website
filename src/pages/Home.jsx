@@ -21,8 +21,13 @@ function DesktopLayout() {
                 src={carouselevent1}
                 alt="First slide"
               />
-              <Carousel.Caption className="carousel-caption text-white d-flex flex-column">
+              <Carousel.Caption className="carousel-text text-white d-flex flex-column">
                 EVENTFLOW
+              </Carousel.Caption>
+              <Carousel.Caption>
+                <Link className="carousel-button" to="/events">
+                  Find Local Events
+                </Link>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -31,8 +36,13 @@ function DesktopLayout() {
                 src={carouselevent2}
                 alt="Second slide"
               />
-              <Carousel.Caption className="carousel-caption text-white d-flex flex-column">
+              <Carousel.Caption className="carousel-text text-white d-flex flex-column">
                 EVENTFLOW
+              </Carousel.Caption>
+              <Carousel.Caption>
+                <Link className="carousel-button" to="/events">
+                  Find Local Events
+                </Link>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -41,8 +51,13 @@ function DesktopLayout() {
                 src={carouselevent3}
                 alt="Third slide"
               />
-              <Carousel.Caption className="carousel-caption text-white d-flex flex-column">
+              <Carousel.Caption className="carousel-text text-white d-flex flex-column">
                 EVENTFLOW
+              </Carousel.Caption>
+              <Carousel.Caption>
+                <Link className="carousel-button" to="/events">
+                  Find Local Events
+                </Link>
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
