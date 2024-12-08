@@ -35,7 +35,7 @@ function DesktopLayout() {
       </div>
       <br />
       <br />
-      <h1 className="who">Our Collection</h1>
+      <h1 className="who">Our Events</h1>
 
       <div className="who">
       EventFlow brings you a diverse range of community events, from local festivals and concerts to workshops, charity drives, and meetups. Whether you're looking to explore, learn, or connect, our platform offers something for everyone. With a wide variety of events to choose from, discovering the perfect experience has never been easier.
