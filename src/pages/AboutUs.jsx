@@ -1,7 +1,7 @@
 import { useMediaQuery } from "react-responsive";
 import stats from "../assets/about-us.png";
 import newImage from "../assets/newImage.jpg";
-import "../styles/AboutUs.css";
+//import "../styles/AboutUs.css";
 import BlurryImageLoader from "../components/BlurryImageLoader";
 
 function AboutUs() {
@@ -26,10 +26,7 @@ function DesktopLayout() {
       <h1 className="who">Who We Are</h1>
 
       <div className="who">
-        Welcome to Vintage Watch Co., where time-honored craftsmanship meets
-        modern elegance. We are passionate collectors and enthusiasts of vintage
-        watches, dedicated to curating a remarkable selection of timepieces that
-        tell a story.
+      At EventFlow, we connect you to the heart of your community by making it easy to discover local events. From festivals to workshops and social gatherings, our platform helps you find events that match your interests and location. We’re here to help you engage, connect, and create unforgettable experiences—all with a few clicks
         <br />
         <br />
       </div>
@@ -41,11 +38,7 @@ function DesktopLayout() {
       <h1 className="who">Our Collection</h1>
 
       <div className="who">
-        Our carefully curated collection features a diverse range of vintage
-        watches from renowned brands, each with its unique charm and character.
-        Whether you are a seasoned collector or new to the world of vintage
-        watches, we strive to offer a selection that caters to every taste and
-        occasion.
+      EventFlow brings you a diverse range of community events, from local festivals and concerts to workshops, charity drives, and meetups. Whether you're looking to explore, learn, or connect, our platform offers something for everyone. With a wide variety of events to choose from, discovering the perfect experience has never been easier.
       </div>
       <br />
       <br />
