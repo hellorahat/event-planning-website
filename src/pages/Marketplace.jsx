@@ -1,21 +1,62 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar.jsx";
 
-
 function Marketplace() {
   const products = [
-    { id: 1, name: "Smartphone", category: "Electronics", brand: "Samsung", price: 999 },
-    { id: 2, name: "Laptop", category: "Electronics", brand: "Apple", price: 1299 },
+    {
+      id: 1,
+      name: "Smartphone",
+      category: "Electronics",
+      brand: "Samsung",
+      price: 999,
+    },
+    {
+      id: 2,
+      name: "Laptop",
+      category: "Electronics",
+      brand: "Apple",
+      price: 1299,
+    },
     { id: 3, name: "Sofa", category: "Furniture", brand: "IKEA", price: 499 },
-    { id: 4, name: "Running Shoes", category: "Clothing", brand: "Nike", price: 120 },
-    { id: 5, name: "T-Shirt", category: "Clothing", brand: "Adidas", price: 35 },
-    { id: 6, name: "Coffee Table", category: "Furniture", brand: "IKEA", price: 150 },
+    {
+      id: 4,
+      name: "Running Shoes",
+      category: "Clothing",
+      brand: "Nike",
+      price: 120,
+    },
+    {
+      id: 5,
+      name: "T-Shirt",
+      category: "Clothing",
+      brand: "Adidas",
+      price: 35,
+    },
+    {
+      id: 6,
+      name: "Coffee Table",
+      category: "Furniture",
+      brand: "IKEA",
+      price: 150,
+    },
   ];
 
   const filterOptions = [
-    { label: "Category", filterKey: "category", values: ["Electronics", "Furniture", "Clothing"] },
-    { label: "Brand", filterKey: "brand", values: ["Samsung", "Apple", "Nike", "Adidas", "IKEA"] },
-    { label: "Price Range", filterKey: "priceRange", values: ["$0-$50", "$50-$100", "$100-$500", "$500+"] },
+    {
+      label: "Category",
+      filterKey: "category",
+      values: ["Electronics", "Furniture", "Clothing"],
+    },
+    {
+      label: "Brand",
+      filterKey: "brand",
+      values: ["Samsung", "Apple", "Nike", "Adidas", "IKEA"],
+    },
+    {
+      label: "Price Range",
+      filterKey: "priceRange",
+      values: ["$0-$50", "$50-$100", "$100-$500", "$500+"],
+    },
   ];
 
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -25,7 +66,10 @@ function Marketplace() {
     setSelectedFilters(filters);
 
     const applyFilters = (product) => {
-      if (filters.category?.length && !filters.category.includes(product.category)) {
+      if (
+        filters.category?.length &&
+        !filters.category.includes(product.category)
+      ) {
         return false;
       }
 
@@ -36,8 +80,10 @@ function Marketplace() {
       if (filters.priceRange?.length) {
         const priceRangeMatch = filters.priceRange.some((range) => {
           if (range === "$0-$50") return product.price <= 50;
-          if (range === "$50-$100") return product.price > 50 && product.price <= 100;
-          if (range === "$100-$500") return product.price > 100 && product.price <= 500;
+          if (range === "$50-$100")
+            return product.price > 50 && product.price <= 100;
+          if (range === "$100-$500")
+            return product.price > 100 && product.price <= 500;
           if (range === "$500+") return product.price > 500;
           return false;
         });
@@ -54,7 +100,10 @@ function Marketplace() {
 
   return (
     <div className="marketplace-container">
-      <FilterSidebar filterOptions={filterOptions} onFilterChange={handleFilterChange} />
+      <FilterSidebar
+        filterOptions={filterOptions}
+        onFilterChange={handleFilterChange}
+      />
       <div className="product-listing">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (

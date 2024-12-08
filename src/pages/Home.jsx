@@ -13,7 +13,6 @@ function DesktopLayout() {
   return (
     <>
       <div className="home_container">
-        <h1>EVENTFLOW</h1>
         <Link to="/about-us">Go to About Page</Link>
         <Link to="/plan-event">Go to plan Page</Link>
         <div className="carousel">
