@@ -7,9 +7,10 @@ function PlanEvent() {
 function DesktopLayout() {
   return (
     <>
-      <h1>Plan Event</h1>
+    <div className="eventpage">
+      <h1 class="eventtitle">Plan Event</h1>
 
-      <div>
+      <div class="event">
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">
             Date
@@ -81,15 +82,21 @@ function DesktopLayout() {
 
         <div class="mb-3">
           <label for="formFile" class="form-label">
-            Default file input example
+            Add An Image
           </label>
           <input class="form-control" type="file" id="formFile" />
         </div>
-        <div class="col-auto">
+        
+
+        <div className="eventbtn">
+        <div  class="col-auto">
           <button type="submit" class="btn btn-primary mb-3">
-            Creare Event
+            Create Event
           </button>
         </div>
+        </div>
+
+      </div>
       </div>
     </>
   );
