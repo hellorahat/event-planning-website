@@ -28,7 +28,9 @@ function DesktopLayout() {
     )
   }
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-success fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-light bg-dark bg-gradient fixed-top"
+         style={{marginTop:"30px"}}
+    >
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
           <img src={logo} alt="Logo" width="200" height="30" />
