@@ -31,3 +31,18 @@
   justify-content: center;
   height: 500px;
 }
+
+.caption1 {
+  text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  padding: 25px 25px 25px 25px;
+}
+
+.caption2 {
+  text-align: center;
+  line-height: 50px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  padding: 25px 150px 25px 150px;
+}

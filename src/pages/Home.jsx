@@ -49,6 +49,17 @@ function DesktopLayout() {
             </Carousel.Item>
           </Carousel>
         </div>
+        <br />
+        <h2 className="caption1">Your Next Event, One Click Away</h2>
+        <br />
+        <h4 className="caption2">
+          With EventFlow, discovering your next event is as easy as a click. Our
+          platform lets you explore a wide variety of events, from community
+          gatherings to corporate conferences. Whether you're looking to attend
+          or get involved, EventFlow makes it effortless to find and join events
+          that matter to you. Say goodbye to the hassle of searching, and hello
+          to a world of opportunities at your fingertips.
+        </h4>
       </div>
     </>
   );
