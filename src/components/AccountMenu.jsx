@@ -7,6 +7,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../../firebase.js";
+import GoogleSignIn from "./GoogleSignIn.jsx";
 import { useUser } from "../utility/UserContext.jsx";
 
 import "../styles/AccountMenu.css";
@@ -196,7 +197,7 @@ function SignInForm({ showErrorMessage, showSuccessMessage, resetMessages }) {
   return (
     <>
       <form>
-        <div className="heading-container">
+        <div className="center-container">
           <h1>Sign In</h1>
         </div>
         <div class={`label-holder mb-3 mt-4 ${emailHasText ? "has-text" : ""}`}>
@@ -257,6 +258,9 @@ function SignInForm({ showErrorMessage, showSuccessMessage, resetMessages }) {
           >
             Create Account
           </button>
+          <div className="center-container">
+            <GoogleSignIn />
+          </div>
         </div>
       </form>
     </>
