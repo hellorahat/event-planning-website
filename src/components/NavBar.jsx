@@ -19,6 +19,35 @@ function NavBar() {
 }
 
 function DesktopLayout() {
+  const [isSearchVisible, setSearchVisible] = useState(false);
+  const handleClickSearch = () => {
+    setSearchVisible((prevState) => !prevState);
+  };
+  const renderSearchBar = () => {
+    if (isSearchVisible)
+      return (
+        <form className="d-flex" role="search">
+          <input
+            className="form-control active"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+        </form>
+      );
+    else
+      return (
+        <form className="d-flex" role="search">
+          <input
+            className="form-control"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+        </form>
+      );
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-primary bg-gradient fixed-top"
          style={{marginTop:"30px", paddingTop:"10px", paddingBottom:"10px"}}
@@ -28,21 +57,23 @@ function DesktopLayout() {
           <img src={logo} alt="Logo" width="200" height="30" />
         </Link>
         <div className="d-flex ms-auto">
+          {renderSearchBar()}
           <div className="nav-item">
-            <Link to="/cart" id="main-nav-button" className="nav-link">
-              <img className="icon mt-1" src={iconSearch} alt="cart" width="30" height="30"
+            <img className="icon mt-1" src={iconSearch} alt="search" width="30" height="30"
+            style={{ marginLeft: "30px"}}
+            onClick={handleClickSearch}
+            >
+            </img>
+          </div>
+          <div className="nav-item">
+            <Link to="/account" id="main-nav-button" className="nav-link">
+              <img className="icon mt-1" src={iconAccount} alt="login" width="30" height="30"
                  style={{ marginLeft: "30px"}}></img>
             </Link>
           </div>
           <div className="nav-item">
-            <Link to="/cart" id="main-nav-button" className="nav-link">
-              <img className="icon mt-1" src={iconAccount} alt="cart" width="30" height="30"
-                 style={{ marginLeft: "30px"}}></img>
-            </Link>
-          </div>
-          <div className="nav-item">
-            <Link to="/cart" id="main-nav-button" className="nav-link">
-              <img className="icon mt-1" src={iconFavorite} alt="cart" width="30" height="30"
+            <Link to="/favorites" id="main-nav-button" className="nav-link">
+              <img className="icon mt-1" src={iconFavorite} alt="favorites" width="30" height="30"
                  style={{ marginLeft: "30px"}}></img>
             </Link>
           </div>

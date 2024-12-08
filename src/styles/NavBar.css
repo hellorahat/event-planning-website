@@ -15,4 +15,18 @@
 
 .icon:hover {
     filter: brightness(0) saturate(100%) invert(82%) sepia(31%) saturate(5524%) hue-rotate(134deg) brightness(105%) contrast(107%);
+    cursor: pointer;
 }
+
+.form-control[type="search"] {
+    position: relative;
+    right: -15px;
+    width: 0px;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .form-control.active[type="search"] {
+    opacity: 1;
+    width: 200px;
+  }
