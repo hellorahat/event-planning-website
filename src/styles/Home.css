@@ -25,7 +25,9 @@
 }
 
 .carousel-caption {
-  color: white;
   font-family: "Italianno";
-  font-size: 50px;
+  font-size: 100px;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
 }

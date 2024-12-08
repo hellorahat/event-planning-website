@@ -7,7 +7,7 @@ function Footer() {
         <br />
         <p>
           ඞ {new Date().getFullYear()} Brian Abreu Filpo, Jason Liu, Rohan
-          Rahman Sazad, Reyaad Raffik, Mit Shah
+          Rahman Sazad, Reyaad Raffik, Jahed Ullah
         </p>
       </div>
     </footer>

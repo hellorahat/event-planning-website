@@ -17,14 +17,14 @@ function DesktopLayout() {
         <Link to="/about-us">Go to About Page</Link>
         <Link to="/plan-event">Go to plan Page</Link>
         <div className="carousel">
-          <Carousel data-bs-theme="dark">
+          <Carousel fade data-bs-theme="dark">
             <Carousel.Item>
               <img
                 className="d-block w-100"
                 src={carouselevent1}
                 alt="First slide"
               />
-              <Carousel.Caption className="carousel-caption">
+              <Carousel.Caption className="carousel-caption text-white d-flex flex-column">
                 EVENTFLOW
               </Carousel.Caption>
             </Carousel.Item>
@@ -34,7 +34,7 @@ function DesktopLayout() {
                 src={carouselevent2}
                 alt="Second slide"
               />
-              <Carousel.Caption className="carousel-caption">
+              <Carousel.Caption className="carousel-caption text-white d-flex flex-column">
                 EVENTFLOW
               </Carousel.Caption>
             </Carousel.Item>
@@ -44,7 +44,7 @@ function DesktopLayout() {
                 src={carouselevent3}
                 alt="Third slide"
               />
-              <Carousel.Caption className="carousel-caption">
+              <Carousel.Caption className="carousel-caption text-white d-flex flex-column">
                 EVENTFLOW
               </Carousel.Caption>
             </Carousel.Item>
