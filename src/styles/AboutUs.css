@@ -1,0 +1,19 @@
+.banner {
+    height: 158px;
+    width: 100%;
+    max-width: 1500px;
+  }
+  
+  .bannerBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .who {
+    text-align: center;
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+  
