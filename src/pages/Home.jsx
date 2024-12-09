@@ -13,6 +13,7 @@ function DesktopLayout() {
   return (
     <>
       <div className="home_container">
+      <Link to="/eventpage">evntpg</Link>
         <div className="carousel">
           <Carousel fade data-bs-theme="dark">
             <Carousel.Item>
