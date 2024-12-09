@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../utility/UserContext"; // Adjust the path based on your project structure
 import { firestore, auth } from "../../firebase.js"; // Import your Firestore instance
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "../styles/PlanEvent.css";
 
@@ -33,10 +41,10 @@ function PlanEvent() {
     }));
   };
 
-  // Add document to Firestore
   async function addEvent(e) {
     e.preventDefault();
     try {
+      // Step 1: Add the event to the "events" collection
       const docRef = await addDoc(collection(firestore, "events"), {
         address: formData.address,
         date: formData.date,
@@ -47,6 +55,27 @@ function PlanEvent() {
         host: formData.host,
       });
       console.log("Document written with ID: ", docRef.id);
+
+      // Step 2: Update the "registered-events" collection
+      const userId = auth.currentUser.uid; // Get the user's ID from Firebase Authentication
+      const registeredEventsRef = collection(firestore, "registered-events");
+
+      // Check if the document for the user already exists
+      const userDocRef = doc(registeredEventsRef, userId);
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        // If the user document exists, update the eventIds array
+        await updateDoc(userDocRef, {
+          eventIds: arrayUnion(docRef.id), // Add the new eventId to the eventIds array
+        });
+      } else {
+        // If the user document doesn't exist, create it with the eventId in an array
+        await setDoc(userDocRef, {
+          eventIds: [docRef.id], // Initialize the eventIds array with the new eventId
+        });
+      }
+      console.log("Event added to registered-events collection");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
