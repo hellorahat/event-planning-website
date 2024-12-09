@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../utility/UserContext"; // Adjust the path based on your project structure
-import { firestore, auth } from "../../firebase.js"; // Import your Firestore instance
+import { firestore, auth, storage } from "../../firebase.js"; // Include storage
 import {
   collection,
   addDoc,
@@ -10,6 +10,7 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Firebase Storage functions
 import { useNavigate } from "react-router-dom";
 import "../styles/PlanEvent.css";
 
@@ -17,12 +18,12 @@ function PlanEvent() {
   const { user, loading } = useUser(); // Get user from context
   const navigate = useNavigate(); // Hook to programmatically navigate
 
-  // Redirect to account menu if the user is not signed in
   useEffect(() => {
     if (!loading && !user) {
-      navigate("/account"); // Adjust the path to your account menu
+      navigate("/account");
     }
   }, [user, loading, navigate]);
+
   const [formData, setFormData] = useState({
     date: "",
     startTime: "",
@@ -31,7 +32,10 @@ function PlanEvent() {
     eventName: "",
     address: "",
     description: "",
+    url: "",
   });
+
+  const [image, setImage] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,10 +45,22 @@ function PlanEvent() {
     }));
   };
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   async function addEvent(e) {
     e.preventDefault();
     try {
-      // Step 1: Add the event to the "events" collection
+      // Step 1: Upload the image if provided
+      let imagePath = null; // This will hold the image path
+      if (image) {
+        imagePath = `images/${image.name}`; // Define the storage path (you can modify this as needed)
+        const imageRef = ref(storage, imagePath);
+        await uploadBytes(imageRef, image); // Upload the image
+      }
+
+      // Step 2: Add the event to the "events" collection
       const docRef = await addDoc(collection(firestore, "events"), {
         address: formData.address,
         date: formData.date,
@@ -53,31 +69,28 @@ function PlanEvent() {
         timeStart: formData.startTime,
         timeEnd: formData.endTime,
         host: formData.host,
+        url: imagePath, // Store the image path in the "url" field
       });
-      console.log("Document written with ID: ", docRef.id);
+      console.log("Event created with ID: ", docRef.id);
 
-      // Step 2: Update the "registered-events" collection
-      const userId = auth.currentUser.uid; // Get the user's ID from Firebase Authentication
+      // Step 3: Update the "registered-events" collection
+      const userId = auth.currentUser.uid;
       const registeredEventsRef = collection(firestore, "registered-events");
-
-      // Check if the document for the user already exists
       const userDocRef = doc(registeredEventsRef, userId);
       const userDocSnapshot = await getDoc(userDocRef);
 
       if (userDocSnapshot.exists()) {
-        // If the user document exists, update the eventIds array
         await updateDoc(userDocRef, {
-          eventIds: arrayUnion(docRef.id), // Add the new eventId to the eventIds array
+          eventIds: arrayUnion(docRef.id),
         });
       } else {
-        // If the user document doesn't exist, create it with the eventId in an array
         await setDoc(userDocRef, {
-          eventIds: [docRef.id], // Initialize the eventIds array with the new eventId
+          eventIds: [docRef.id],
         });
       }
       console.log("Event added to registered-events collection");
     } catch (e) {
-      console.error("Error adding document: ", e);
+      console.error("Error adding event: ", e);
     }
   }
 
@@ -89,6 +102,7 @@ function PlanEvent() {
     <div className="eventpage">
       <h1 className="eventtitle">Plan Event</h1>
       <form onSubmit={addEvent} className="event">
+        {/* Event input fields */}
         <div className="mb-3">
           <label htmlFor="date" className="form-label">
             Date
@@ -142,7 +156,7 @@ function PlanEvent() {
             name="host"
             value={formData.host}
             onChange={handleInputChange}
-            disabled // Disable editing host since it's autofilled
+            disabled
           />
         </div>
 
@@ -186,6 +200,19 @@ function PlanEvent() {
             value={formData.description}
             onChange={handleInputChange}
           ></textarea>
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label">
+            Upload Image
+          </label>
+          <input
+            type="file"
+            className="form-control"
+            id="image"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </div>
 
         <div className="eventbtn">

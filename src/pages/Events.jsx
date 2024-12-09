@@ -14,6 +14,7 @@ import {
 import { firestore } from "../../firebase.js";
 import { useUser } from "../utility/UserContext.jsx";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import "../styles/Events.css";
 
 function Events() {
@@ -85,33 +86,56 @@ function Events() {
     }
   };
 
-  const handleDelete = async (eventId, isHost) => {
+  const handleDelete = async (eventId, isHost, imagePath) => {
     if (isHost) {
       try {
-        // Get the current user document from 'registered-events'
+        // Remove the eventId from the user's registered events
         const userDocRef = doc(firestore, "registered-events", user.uid);
-
-        // Remove the eventId from the user's registered events document
         await updateDoc(userDocRef, {
-          eventIds: arrayRemove(eventId), // Remove the eventId from the array
+          eventIds: arrayRemove(eventId),
         });
 
         // Delete the event document from 'events' collection
         const eventDocRef = doc(firestore, "events", eventId);
         await deleteDoc(eventDocRef);
 
-        // Update the state to reflect the deletion
+        // Remove the eventId from all users who are registered for the event
+        const registeredEventsSnapshot = await getDocs(
+          collection(firestore, "registered-events")
+        );
+        registeredEventsSnapshot.forEach(async (userDoc) => {
+          const userEventIds = userDoc.data().eventIds || [];
+          if (userEventIds.includes(eventId)) {
+            const userDocRef = doc(firestore, "registered-events", userDoc.id);
+            await updateDoc(userDocRef, {
+              eventIds: arrayRemove(eventId),
+            });
+          }
+        });
+
+        // Delete the image file from Firebase Storage (in the "images" folder)
+        if (imagePath) {
+          const storage = getStorage();
+          const imageRef = ref(storage, imagePath); // Use the passed imagePath
+          await deleteObject(imageRef);
+          console.log("Image deleted from Firebase Storage.");
+        } else {
+          console.log("No image path found for deletion.");
+        }
+
+        // Update the events state
         setEvents((prevEvents) =>
           prevEvents.filter((event) => event.id !== eventId)
         );
-        alert("Event deleted and removed from your registered events.");
+
+        alert("Event deleted, and image removed from storage.");
       } catch (error) {
-        console.error("Error deleting event:", error);
-        alert("There was an error deleting the event.");
+        console.error("Error deleting event and image:", error);
+        alert("There was an error deleting the event and image.");
       }
     } else {
       try {
-        // For non-hosts: Remove the eventId from the registered events of the user
+        // For non-hosts: Remove the eventId from the user's registered events
         const userDocRef = doc(firestore, "registered-events", user.uid);
         await updateDoc(userDocRef, {
           eventIds: arrayRemove(eventId),
@@ -173,6 +197,7 @@ function Events() {
             onRegister={handleRegister}
             onDelete={handleDelete}
             isRegistered={userRegisteredEvents.includes(event.id)}
+            imagePath={event.url}
           />
         ))}
       </div>
@@ -243,7 +268,7 @@ function EventCard({ event, user, onRegister, onDelete, isRegistered }) {
       {isHost && (
         <button
           className="delete-button"
-          onClick={() => onDelete(event.id, true)}
+          onClick={() => onDelete(event.id, true, event.url)}
         >
           Delete Event
         </button>
