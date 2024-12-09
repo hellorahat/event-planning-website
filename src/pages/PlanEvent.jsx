@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "../utility/UserContext"; // Adjust the path based on your project structure
-import { firestore } from "../../firebase.js"; // Import your Firestore instance
+import { firestore, auth } from "../../firebase.js"; // Import your Firestore instance
 import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import "../styles/PlanEvent.css";
 
 function PlanEvent() {
-  const { user } = useUser(); // Get user from context
+  const { user, loading } = useUser(); // Get user from context
+  const navigate = useNavigate(); // Hook to programmatically navigate
+
+  // Redirect to account menu if the user is not signed in
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/account"); // Adjust the path to your account menu
+    }
+  }, [user, loading, navigate]);
   const [formData, setFormData] = useState({
     date: "",
     startTime: "",
@@ -41,6 +50,10 @@ function PlanEvent() {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
