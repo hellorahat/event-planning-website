@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import {
   getFirestore,
@@ -7,20 +8,12 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { firestore } from "../../firebase.js";
-import { getAuth } from "firebase/auth"; // To get the current user
-import { useUser } from "../utility/UserContext.jsx";
+import { useUser } from "../utility/UserContext.jsx"; // Make sure this import is correct
 import "../styles/Events.css";
 
 function Events() {
   const [events, setEvents] = useState([]);
-  const { user, setUser } = useUser()
-
-  // Get the current user from Firebase Authentication
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = auth.onAuthStateChanged(setUser); // Updates the user state
-    return () => unsubscribe(); // Cleanup the listener
-  }, []);
+  const { user } = useUser(); // Use the `useUser` hook to get the current user
 
   // Fetch events from Firestore
   useEffect(() => {
@@ -56,7 +49,7 @@ function Events() {
           <EventCard
             key={event.id}
             event={event}
-            user={user}
+            user={user} // Pass the user from the hook to the EventCard
             onDelete={handleDelete}
           />
         ))}
@@ -72,8 +65,6 @@ function EventCard({ event, user, onDelete }) {
 
   const userName = user ? user.name : "";
   const isHost = userName === event.host; // Check if current user is the host
-  console.log("Current user name:", userName);
-  console.log("Event host name:", event.host);
 
   return (
     <div className="event-card">
