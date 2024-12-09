@@ -13,7 +13,7 @@ import "../styles/Events.css";
 
 function Events() {
   const [events, setEvents] = useState([]);
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useUser()
 
   // Get the current user from Firebase Authentication
   useEffect(() => {
@@ -70,9 +70,10 @@ function EventCard({ event, user, onDelete }) {
     alert(`You have registered for ${event.name}`);
   };
 
-  const isHost = user && String(user.name) === event.host; // Check if current user is the host
-  console.log("Current user uid:", user?.uid);
-  console.log("Event host uid:", event.host);
+  const userName = user ? user.name : "";
+  const isHost = userName === event.host; // Check if current user is the host
+  console.log("Current user name:", userName);
+  console.log("Event host name:", event.host);
 
   return (
     <div className="event-card">
