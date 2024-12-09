@@ -65,7 +65,6 @@ function DesktopLayout() {
         </div>
         <br />
         <h2 className="caption1">Your Next Event, One Click Away</h2>
-        <br />
         <h4 className="caption2">
           With EventFlow, discovering your next event is as easy as a click. Our
           platform lets you explore a wide variety of events, from community
