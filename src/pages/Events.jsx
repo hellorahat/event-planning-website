@@ -149,42 +149,6 @@ function Events() {
     }
   };
 
-  // Function to handle event creation
-  const handleCreateEvent = async (newEvent) => {
-    if (!user) {
-      alert("Please log in to create an event.");
-      navigate("/account"); // Redirect to the account/login page
-      return;
-    }
-
-    try {
-      const eventRef = doc(collection(firestore, "events"));
-      await setDoc(eventRef, {
-        name: newEvent.name,
-        description: newEvent.description,
-        date: newEvent.date,
-        timeStart: newEvent.timeStart,
-        timeEnd: newEvent.timeEnd,
-        address: newEvent.address,
-        host: user.name,
-      });
-
-      // Automatically add the event to the host's registered events
-      const userDocRef = doc(firestore, "registered-events", user.uid);
-      await setDoc(
-        userDocRef,
-        {
-          eventIds: arrayUnion(eventRef.id),
-        },
-        { merge: true }
-      );
-
-      alert(`Event created and added to your registered events!`);
-    } catch (error) {
-      console.error("Error creating event:", error);
-    }
-  };
-
   return (
     <div className="events-list-container">
       <h1>Upcoming Events</h1>
@@ -202,26 +166,49 @@ function Events() {
         ))}
       </div>
 
-      {user && userRegisteredEvents.length > 0 && (
-        <div className="registered-events-list">
+      {user && (
+        <div className="registered-events-dropdown">
           <h2>Your Registered Events</h2>
-          <ul>
-            {userRegisteredEvents.map((eventId) => {
-              const event = events.find((e) => e.id === eventId);
-              return event ? (
-                <li key={event.id}>
-                  {event.name}
-                  <button
-                    onClick={() =>
-                      handleDelete(event.id, event.host === user.name)
-                    }
-                  >
-                    {event.host === user.name ? "Delete Event" : "Unregister"}
-                  </button>
-                </li>
-              ) : null;
-            })}
-          </ul>
+          {userRegisteredEvents.length > 0 ? (
+            <div className="registered-events-list">
+              {userRegisteredEvents.map((eventId) => {
+                const event = events.find((e) => e.id === eventId);
+                return event ? (
+                  <div className="dropdown-item" key={event.id}>
+                    <button
+                      className="unregister-button"
+                      onClick={() =>
+                        handleDelete(
+                          event.id,
+                          event.host === user.name,
+                          event.url
+                        )
+                      }
+                    >
+                      &#10005; {/* "X" icon */}
+                    </button>
+                    <div className="event-info">
+                      <h3 className="event-name">{event.name}</h3>
+                      <p>
+                        <strong>Address:</strong> {event.address}
+                      </p>
+                      <p>
+                        <strong>Date:</strong> {event.date}
+                      </p>
+                      <p>
+                        <strong>Time:</strong> {event.timeStart} -{" "}
+                        {event.timeEnd}
+                      </p>
+                    </div>
+                  </div>
+                ) : null;
+              })}
+            </div>
+          ) : (
+            <p className="no-registered-events">
+              You are not registered for any events yet.
+            </p>
+          )}
         </div>
       )}
     </div>
@@ -244,6 +231,13 @@ function EventCard({ event, user, onRegister, onDelete, isRegistered }) {
 
   return (
     <div className="event-card">
+      {event.url && (
+        <img
+          src={event.photo} // Assuming event.photo contains the image URL
+          alt={event.name}
+          className="event-image"
+        />
+      )}
       <h3 className="event-title">{event.name}</h3>
       <p className="event-description">{event.description}</p>
       <p className="event-date">

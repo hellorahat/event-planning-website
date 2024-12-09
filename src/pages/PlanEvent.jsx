@@ -33,6 +33,7 @@ function PlanEvent() {
     address: "",
     description: "",
     url: "",
+    photo: "",
   });
 
   const [image, setImage] = useState(null);
@@ -54,10 +55,12 @@ function PlanEvent() {
     try {
       // Step 1: Upload the image if provided
       let imagePath = null; // This will hold the image path
+      let imageUrl = null;
       if (image) {
         imagePath = `images/${image.name}`; // Define the storage path (you can modify this as needed)
         const imageRef = ref(storage, imagePath);
         await uploadBytes(imageRef, image); // Upload the image
+        imageUrl = await getDownloadURL(imageRef);
       }
 
       // Step 2: Add the event to the "events" collection
@@ -70,6 +73,7 @@ function PlanEvent() {
         timeEnd: formData.endTime,
         host: formData.host,
         url: imagePath, // Store the image path in the "url" field
+        photo: imageUrl,
       });
       console.log("Event created with ID: ", docRef.id);
 
@@ -89,6 +93,9 @@ function PlanEvent() {
         });
       }
       console.log("Event added to registered-events collection");
+
+      // Step 4: Redirect to the events page
+      navigate("/events"); // Redirect to the events page
     } catch (e) {
       console.error("Error adding event: ", e);
     }
