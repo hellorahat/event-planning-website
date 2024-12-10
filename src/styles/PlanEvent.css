@@ -20,9 +20,9 @@
 }
 
 .btn {
-  background-color: #77ffbb !important;
-  border: 2px solid black !important;
-  color: black !important;
+  background-color: #007bff !important;
+  border: 2px solid #007bff !important;
+  color: white;
   padding: 0.75rem 4rem !important;
   width: 100% !important;
 }
