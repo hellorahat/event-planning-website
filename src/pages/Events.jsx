@@ -173,7 +173,7 @@ function Events() {
 
       {user && (
         <div className="registered-events-dropdown">
-          <h2>Your Registered Events</h2>
+          <h2 style={{ textAlign: "center" }}>Your Registered Events</h2>
           {userRegisteredEvents.length > 0 ? (
             <div className="registered-events-list">
               {userRegisteredEvents.map((eventId) => {
@@ -190,7 +190,7 @@ function Events() {
                         )
                       }
                     >
-                      &#10005; {/* "X" icon */}
+                      Unregister{" "}
                     </button>
                     <div className="event-info">
                       <h3 className="event-name">{event.name}</h3>

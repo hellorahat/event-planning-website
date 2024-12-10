@@ -1,6 +1,6 @@
 .events-list-container {
   padding: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .events-list {
@@ -36,24 +36,17 @@
 }
 
 .event-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 1.25em;
+  margin-bottom: 5px;
 }
 
-.event-description {
-  font-size: 1em;
-  color: #555;
-  margin-top: 10px;
-}
-
+.event-description,
 .event-date,
 .event-time,
-.event-host,
-.event-location {
-  font-size: 1.1em;
-  margin-top: 10px;
-  color: #333;
+.event-location,
+.event-host {
+  font-size: 1em;
+  margin: 5px 0;
 }
 
 .register-button {
@@ -88,7 +81,9 @@
 }
 
 .registered-events-dropdown {
-  margin-top: 40px;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+  padding: 10px;
 }
 
 .registered-events-list {
@@ -102,23 +97,34 @@
 }
 
 .dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: 1fr 150px; /* The event details take most of the space, the unregister button has fixed width */
+  gap: 10px; /* Space between the event details and the unregister button */
+  align-items: center; /* Aligns the items vertically */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
 }
 
 .unregister-button {
-  background-color: transparent;
+  background-color: #e63946;
+  color: white;
   border: none;
-  color: #dc3545;
-  font-size: 1.5em;
+  padding: 8px 15px;
   cursor: pointer;
+  border-radius: 5px;
+  justify-self: flex-end; /* Makes sure the button is on the right */
+}
+
+.unregister-button:hover {
+  background-color: #c51d34;
 }
 
 .event-info {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px; /* Space between the event details and the unregister button */
 }
 
 .event-name {
