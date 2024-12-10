@@ -246,6 +246,15 @@ function EventCard({
     onDelete(event.id, true, event.url); // Delete the event
   };
 
+  // Truncate description to 15 words and add "..."
+  const truncateDescription = (description) => {
+    const words = description.split(" ");
+    if (words.length > 15) {
+      return words.slice(0, 15).join(" ") + " ...";
+    }
+    return description;
+  };
+
   return (
     <div className="event-card">
       <div
@@ -260,7 +269,9 @@ function EventCard({
           />
         )}
         <h3 className="event-title">{event.name}</h3>
-        <p className="event-description">{event.description}</p>
+        <p className="event-description">
+          {truncateDescription(event.description)}
+        </p>
         <p className="event-date">
           <strong>Date:</strong> {event.date}
         </p>
