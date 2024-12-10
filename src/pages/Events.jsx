@@ -234,7 +234,7 @@ function EventCard({
     } else if (user && user.name === event.host) {
       alert(`You are the host for ${event.name}. You are already registered.`);
     } else {
-      alert(`You are already registered for ${event.name}`);
+      alert(`Please sign in to register for event.`);
     }
   };
 
