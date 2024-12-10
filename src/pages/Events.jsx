@@ -149,6 +149,10 @@ function Events() {
     }
   };
 
+  const handleCardClick = (eventId) => {
+    navigate(`/eventpage/${eventId}`); // Navigate to the event page with eventId
+  };
+
   return (
     <div className="events-list-container">
       <h1>Upcoming Events</h1>
@@ -162,6 +166,7 @@ function Events() {
             onDelete={handleDelete}
             isRegistered={userRegisteredEvents.includes(event.id)}
             imagePath={event.url}
+            handleCardClick={handleCardClick} // Pass handleCardClick as a prop
           />
         ))}
       </div>
@@ -215,7 +220,14 @@ function Events() {
   );
 }
 
-function EventCard({ event, user, onRegister, onDelete, isRegistered }) {
+function EventCard({
+  event,
+  user,
+  onRegister,
+  onDelete,
+  isRegistered,
+  handleCardClick,
+}) {
   const handleRegisterClick = () => {
     if (!isRegistered && user && user.name !== event.host) {
       onRegister(event.id);
@@ -229,29 +241,39 @@ function EventCard({ event, user, onRegister, onDelete, isRegistered }) {
   const userName = user ? user.name : "";
   const isHost = userName === event.host; // Check if current user is the host
 
+  const handleDeleteClick = (e) => {
+    e.stopPropagation(); // Prevent event propagation so clicking the button won't trigger the card click
+    onDelete(event.id, true, event.url); // Delete the event
+  };
+
   return (
     <div className="event-card">
-      {event.url && (
-        <img
-          src={event.photo} // Assuming event.photo contains the image URL
-          alt={event.name}
-          className="event-image"
-        />
-      )}
-      <h3 className="event-title">{event.name}</h3>
-      <p className="event-description">{event.description}</p>
-      <p className="event-date">
-        <strong>Date:</strong> {event.date}
-      </p>
-      <p className="event-time">
-        <strong>Time:</strong> {event.timeStart} - {event.timeEnd}
-      </p>
-      <p className="event-host">
-        <strong>Host:</strong> {event.host}
-      </p>
-      <p className="event-location">
-        <strong>Location:</strong> {event.address}
-      </p>
+      <div
+        onClick={() => handleCardClick(event.id)} // Trigger handleCardClick when the card is clicked
+        style={{ cursor: "pointer" }} // Add a pointer cursor to show it's clickable
+      >
+        {event.url && (
+          <img
+            src={event.photo} // Assuming event.photo contains the image URL
+            alt={event.name}
+            className="event-image"
+          />
+        )}
+        <h3 className="event-title">{event.name}</h3>
+        <p className="event-description">{event.description}</p>
+        <p className="event-date">
+          <strong>Date:</strong> {event.date}
+        </p>
+        <p className="event-time">
+          <strong>Time:</strong> {event.timeStart} - {event.timeEnd}
+        </p>
+        <p className="event-host">
+          <strong>Host:</strong> {event.host}
+        </p>
+        <p className="event-location">
+          <strong>Location:</strong> {event.address}
+        </p>
+      </div>
       <button className="register-button" onClick={handleRegisterClick}>
         {isHost
           ? "Already Registered"
@@ -260,10 +282,7 @@ function EventCard({ event, user, onRegister, onDelete, isRegistered }) {
           : "Register"}
       </button>
       {isHost && (
-        <button
-          className="delete-button"
-          onClick={() => onDelete(event.id, true, event.url)}
-        >
+        <button className="delete-button" onClick={handleDeleteClick}>
           Delete Event
         </button>
       )}
