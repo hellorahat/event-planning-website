@@ -30,8 +30,6 @@ function EventPage() {
   const { user } = useUser(); // Get the current user
   const [userRegisteredEvents, setUserRegisteredEvents] = useState([]);
   const navigate = useNavigate();
-  let addr = "Zepp+New+Taipei,+taipei,+taiwan";
-  let mapsrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBAgyvoRzJxAHngkRMjpl5NlGY01Rtih0s&q=${addr}`;
   useEffect(() => {
     const fetchEvent = async () => {
       const eventRef = doc(firestore, "events", eventId);
@@ -151,6 +149,9 @@ function EventPage() {
     return <div>Loading event...</div>; // Handle loading state
   }
 
+  let addr = event.address;
+  let mapsrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBAgyvoRzJxAHngkRMjpl5NlGY01Rtih0s&q=${addr}`;
+
   const isRegistered = userRegisteredEvents.includes(eventId);
   const isHost = user && event.host === user.name;
 
@@ -221,20 +222,17 @@ function EventPage() {
         <Typography variant="body1">{event.description}</Typography>
       </Card>
 
-
-      <Card sx={{ mb: 3,height: "450px"}}>  
-     
-     <iframe
-       src= {mapsrc}
-       width="100%"
-       height="100%"
-       //style="border:0;"
-       allowfullscreen=""
-       loading="lazy"
-       referrerpolicy="no-referrer-when-downgrade"
-     ></iframe>
-   
-</Card>
+      <Card sx={{ mb: 3, height: "450px" }}>
+        <iframe
+          src={mapsrc}
+          width="100%"
+          height="100%"
+          //style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </Card>
     </Container>
   );
 }
