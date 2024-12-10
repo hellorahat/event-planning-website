@@ -22,7 +22,7 @@ function Contents() {
         <Route path="/events" element={<Events />}></Route>
         <Route path="/plan-event" element={<PlanEvent />}></Route>
         <Route path="/account" element={<Login />}></Route>
-        <Route path="/eventpage" element={<Eventpage />}></Route>
+        <Route path="/eventpage/:eventId" element={<Eventpage />}></Route>
         {/* <Route path="/cart" element={<Cart />}></Route>
         <Route path="/product/:id" element={<Product />}></Route> */}
       </Routes>
