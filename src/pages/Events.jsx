@@ -285,18 +285,20 @@ function EventCard({
           <strong>Location:</strong> {event.address}
         </p>
       </div>
-      <button className="register-button" onClick={handleRegisterClick}>
-        {isHost
-          ? "Already Registered"
-          : isRegistered
-          ? "Already Registered"
-          : "Register"}
-      </button>
-      {isHost && (
-        <button className="delete-button" onClick={handleDeleteClick}>
-          Delete Event
+      <div className="events-buttons">
+        <button className="register-button" onClick={handleRegisterClick}>
+          {isHost
+            ? "Already Registered"
+            : isRegistered
+            ? "Already Registered"
+            : "Register"}
         </button>
-      )}
+        {isHost && (
+          <button className="delete-button" onClick={handleDeleteClick}>
+            Delete Event
+          </button>
+        )}
+      </div>
     </div>
   );
 }

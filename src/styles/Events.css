@@ -5,7 +5,7 @@
 
 .events-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 20px;
   margin-top: 30px;
 }
@@ -18,7 +18,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
   transition: transform 0.3s;
-  overflow: hidden; /* Ensure image doesn't overflow */
+  overflow: hidden;
+  width: 100%; /* Ensure the event card spans the full container width */
 }
 
 .event-image {
@@ -64,6 +65,7 @@
   margin-top: 15px;
   cursor: pointer;
   font-size: 1em;
+  margin-right: 10px; /* Add space between register and delete buttons */
 }
 
 .register-button:hover {
