@@ -30,7 +30,8 @@ function EventPage() {
   const { user } = useUser(); // Get the current user
   const [userRegisteredEvents, setUserRegisteredEvents] = useState([]);
   const navigate = useNavigate();
-
+  let addr = "Zepp+New+Taipei,+taipei,+taiwan";
+  let mapsrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBAgyvoRzJxAHngkRMjpl5NlGY01Rtih0s&q=${addr}`;
   useEffect(() => {
     const fetchEvent = async () => {
       const eventRef = doc(firestore, "events", eventId);
@@ -164,6 +165,7 @@ function EventPage() {
               sx={{ width: 120, height: 120 }}
             />
           </Grid2>
+          {/* header */}
           <Grid2 item xs={9}>
             <Typography variant="h4" gutterBottom>
               {event.name}
@@ -218,6 +220,21 @@ function EventPage() {
         </Typography>
         <Typography variant="body1">{event.description}</Typography>
       </Card>
+
+
+      <Card sx={{ mb: 3,height: "450px"}}>  
+     
+     <iframe
+       src= {mapsrc}
+       width="100%"
+       height="100%"
+       //style="border:0;"
+       allowfullscreen=""
+       loading="lazy"
+       referrerpolicy="no-referrer-when-downgrade"
+     ></iframe>
+   
+</Card>
     </Container>
   );
 }
