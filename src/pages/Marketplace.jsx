@@ -49,6 +49,11 @@ function Marketplace() {
     filterKey: "brand",
     values: ["Samsung", "Apple", "Nike", "Adidas", "IKEA"],
   },
+  {
+    label: "Price Range",
+    filterKey: "priceRange",
+    values: ["$0-$50", "$50-$100", "$100-$500", "$500+"],
+  },
 
 
   ];
