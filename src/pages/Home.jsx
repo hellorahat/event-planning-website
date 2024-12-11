@@ -12,7 +12,9 @@ function Home() {
 function DesktopLayout() {
   return (
     <>
+      <Link to="/productpages">hello</Link>
       <div className="home_container">
+      
         <div className="carousel">
           <Carousel fade data-bs-theme="dark">
             <Carousel.Item>
