@@ -39,7 +39,12 @@ function Marketplace() {
     fetchProducts();
   }, []);
 
-  const filterOptions = [
+  const filterOptions = [ {
+    label: "Category",
+    filterKey: "category",
+    values: ["Electronics", "Furniture", "Clothing"],
+  },
+
 
   ];
 
