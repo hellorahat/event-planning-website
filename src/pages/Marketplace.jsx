@@ -13,13 +13,15 @@ import { firestore, auth } from "../../firebase.js";
 import { Link } from "react-router-dom"; // Import Link for navigation
 import Sidebar from "./Sidebar.jsx";
 import iconFavorite from "../assets/favorite.svg";
+import iconCart from "../assets/cart.svg"; // Import a cart icon (you need to add this asset)
 import "../styles/Marketplace.css";
 
 function Marketplace() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
-  const [isFavorited, setIsFavorited] = useState({}); // State to manage favorites
+  const [isFavorited, setIsFavorited] = useState({});
+  const [isInCart, setIsInCart] = useState({}); // State to manage cart status
 
   // Fetch products from Firestore
   useEffect(() => {
@@ -93,29 +95,51 @@ function Marketplace() {
 
   // Handle favorite click
   const handleFavorite = async (productId) => {
-    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID, e.g., from Firebase Authentication
+    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID
 
     try {
       const favoriteDocRef = doc(firestore, "favorites", userId); // Use userId as the document name
       const favoriteDoc = await getDoc(favoriteDocRef);
 
       if (favoriteDoc.exists()) {
-        // If the document exists, update the productIds array by adding the new productId
         await updateDoc(favoriteDocRef, {
-          productIds: arrayUnion(productId), // Add the productId to the array
+          productIds: arrayUnion(productId),
         });
       } else {
-        // If the document doesn't exist, create a new document with an array containing the first productId
         await setDoc(favoriteDocRef, {
-          productIds: [productId], // Initialize with an array of the first productId
+          productIds: [productId],
         });
       }
 
-      // Update local state to show the favorite button as "favorited"
       setIsFavorited((prev) => ({ ...prev, [productId]: true }));
       alert("Product has been favorited.");
     } catch (error) {
       console.error("Error adding favorite: ", error);
+    }
+  };
+
+  // Handle cart click
+  const handleCart = async (productId) => {
+    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID
+
+    try {
+      const cartDocRef = doc(firestore, "cart", userId); // Use userId as the document name
+      const cartDoc = await getDoc(cartDocRef);
+
+      if (cartDoc.exists()) {
+        await updateDoc(cartDocRef, {
+          productIds: arrayUnion(productId),
+        });
+      } else {
+        await setDoc(cartDocRef, {
+          productIds: [productId],
+        });
+      }
+
+      setIsInCart((prev) => ({ ...prev, [productId]: true }));
+      alert("Product has been added to the cart.");
+    } catch (error) {
+      console.error("Error adding product to cart: ", error);
     }
   };
 
@@ -134,7 +158,7 @@ function Marketplace() {
                 style={{ cursor: "pointer" }}
               >
                 <img
-                  src={product.photo} // Assuming product.photo contains the image URL
+                  src={product.photo}
                   alt={product.name}
                   className="product-image"
                 />
@@ -155,6 +179,21 @@ function Marketplace() {
                   alt="Favorite"
                   className={`favorite-icon ${
                     isFavorited[product.id] ? "favorited" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Cart Button */}
+              <button
+                className="cart-btn"
+                onClick={() => handleCart(product.id)}
+                aria-label="Add to Cart"
+              >
+                <img
+                  src={iconCart}
+                  alt="Cart"
+                  className={`cart-icon ${
+                    isInCart[product.id] ? "in-cart" : ""
                   }`}
                 />
               </button>

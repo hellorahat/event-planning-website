@@ -95,3 +95,22 @@
 .favorite-icon.favorited {
   fill: red; /* Change color or use a different icon when favorited */
 }
+/* Cart Button */
+.cart-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 50px; /* Adjust to space out from favorite button */
+  padding: 5px;
+}
+
+.cart-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.cart-icon.in-cart {
+  fill: green; /* Change color or icon when the product is in the cart */
+}
