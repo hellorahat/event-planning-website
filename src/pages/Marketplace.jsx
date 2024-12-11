@@ -10,7 +10,7 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { firestore, auth } from "../../firebase.js";
-import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar.jsx";
 import iconFavorite from "../assets/favorite.svg";
 import iconCart from "../assets/cart.svg";
@@ -55,6 +55,21 @@ function Marketplace() {
       filterKey: "priceRange",
       values: ["$0-$50", "$50-$100", "$100-$500", "$500+"],
     },
+    {
+      label: "Color",
+      filterKey: "color",
+      values: ["Red", "Blue", "Green", "Black", "White"],
+    },
+    {
+      label: "Condition",
+      filterKey: "condition",
+      values: ["New", "Used", "Refurbished"],
+    },
+    {
+      label: "Description",
+      filterKey: "description",
+      values: ["Sale", "Limited Edition", "Exclusive", "Clearance"],
+    },
   ];
 
   const handleFilterChange = (filters) => {
@@ -65,10 +80,25 @@ function Marketplace() {
         filters.category?.length &&
         !filters.category.includes(product.category)
       ) {
-        return ;
+        return false;
       }
 
       if (filters.brand?.length && !filters.brand.includes(product.brand)) {
+        return false;
+      }
+
+      if (filters.color?.length && !filters.color.includes(product.color)) {
+        return false;
+      }
+
+      if (
+        filters.condition?.length &&
+        !filters.condition.includes(product.condition)
+      ) {
+        return false;
+      }
+
+      if (filters.description?.length && !filters.description.includes(product.description)) {
         return false;
       }
 
@@ -161,12 +191,15 @@ function Marketplace() {
               >
                 <img
                   src={product.photo}
-                  alt={product.name}
+                  alt={product.productName}
                   className="product-image"
                 />
                 <h3 className="product-title">{product.productName}</h3>
-                <p className="product-category">{product.type}</p>
+                <p className="product-category">{product.category}</p>
                 <p className="product-brand">{product.brand}</p>
+                <p className="product-color">{product.color}</p>
+                <p className="product-condition">{product.condition}</p>
+                <p className="product-description">{product.description}</p>
                 <p className="product-price">${product.price}</p>
               </div>
 
