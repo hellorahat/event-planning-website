@@ -60,7 +60,7 @@ function Events() {
     fetchRegisteredEvents();
   }, [user]);
 
-  const handleRegister = async (eventId) => {
+  const handleRegister = async (eventId, eventName) => {
     if (!user) {
       alert("Please log in to register for an event.");
       navigate("/account"); // Redirect to the account/login page
@@ -80,7 +80,7 @@ function Events() {
       );
 
       setUserRegisteredEvents((prev) => [...prev, eventId]); // Update the UI
-      alert(`You have registered for ${eventId}`);
+      alert(`You have registered for ${eventName}`);
     } catch (error) {
       console.error("Error registering for event:", error);
     }
@@ -173,7 +173,7 @@ function Events() {
 
       {user && (
         <div className="registered-events-dropdown">
-          <h2>Your Registered Events</h2>
+          <h2 style={{ textAlign: "center" }}>Your Registered Events</h2>
           {userRegisteredEvents.length > 0 ? (
             <div className="registered-events-list">
               {userRegisteredEvents.map((eventId) => {
@@ -190,7 +190,7 @@ function Events() {
                         )
                       }
                     >
-                      &#10005; {/* "X" icon */}
+                      Unregister{" "}
                     </button>
                     <div className="event-info">
                       <h3 className="event-name">{event.name}</h3>
@@ -230,11 +230,11 @@ function EventCard({
 }) {
   const handleRegisterClick = () => {
     if (!isRegistered && user && user.name !== event.host) {
-      onRegister(event.id);
+      onRegister(event.id, event.name);
     } else if (user && user.name === event.host) {
       alert(`You are the host for ${event.name}. You are already registered.`);
     } else {
-      alert(`You are already registered for ${event.name}`);
+      alert(`Please sign in to register for event.`);
     }
   };
 
