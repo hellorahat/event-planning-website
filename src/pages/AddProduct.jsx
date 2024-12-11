@@ -57,15 +57,17 @@ function AddProduct() {
       // Step 1: Upload the image if provided
       let imagePath = null; // This will hold the image path
       let imageUrl = null;
+
+      // Step 2: Add the product to the "marketplace" collection
+      const productId = doc(collection(firestore, "marketplace")).id; // Use a document ID from Firestore as productId
+
       if (image) {
-        imagePath = `images/${image.name}`; // Define the storage path (you can modify this as needed)
+        imagePath = `images/${productId}`; // Define the storage path (you can modify this as needed)
         const imageRef = ref(storage, imagePath);
         await uploadBytes(imageRef, image); // Upload the image
         imageUrl = await getDownloadURL(imageRef);
       }
 
-      // Step 2: Add the product to the "marketplace" collection
-      const productId = doc(collection(firestore, "marketplace")).id; // Use a document ID from Firestore as productId
       const docRef = await setDoc(doc(firestore, "marketplace", productId), {
         color: formData.color,
         condition: formData.condition,

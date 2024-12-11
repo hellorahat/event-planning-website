@@ -15,6 +15,7 @@ import Checkout from "../pages/Checkout";
 import Success from "../pages/Success";
 import Cancel from "../pages/Cancel";
 import Productpages from "../pages/Productpages";
+import OrderHistory from "../pages/OrderHistory";
 // import Product from "../pages/product";
 // import "../styles/Contents.css";
 
@@ -35,6 +36,7 @@ function Contents() {
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/success" element={<Success />}></Route>
         <Route path="/cancel" element={<Cancel />}></Route>
+        <Route path="/order-history" element={<OrderHistory />}></Route>
         <Route path="/product/:productId" element={<Productpages />}></Route>
       </Routes>
     </div>
