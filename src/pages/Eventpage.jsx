@@ -9,7 +9,7 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
-import { firestore } from "../../firebase.js"; // Adjust path if necessary
+import { firestore } from "../../firebase.js";
 import {
   Container,
   Card,
@@ -19,10 +19,11 @@ import {
   Grid2,
   Box,
 } from "@mui/material";
-import { useUser } from "../utility/UserContext.jsx"; // Import useUser to get current user
-import { arrayUnion, arrayRemove } from "firebase/firestore"; // For adding/removing to Firestore
-import { getStorage, ref, deleteObject } from "firebase/storage"; // For deleting images from storage
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useUser } from "../utility/UserContext.jsx";
+import { arrayUnion, arrayRemove } from "firebase/firestore";
+import { getStorage, ref, deleteObject } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
+import apiUrl from "../utility/apiUrl.jsx";
 
 function EventPage() {
   const { eventId } = useParams(); // Get the eventId from the URL
@@ -30,6 +31,35 @@ function EventPage() {
   const { user } = useUser(); // Get the current user
   const [userRegisteredEvents, setUserRegisteredEvents] = useState([]);
   const navigate = useNavigate();
+
+  const [mapsrc, setMapsrc] = useState('');
+  const getMapSrc = (addr) => {
+    const url = `${apiUrl.getMapUrl}?address=${encodeURIComponent(addr)}`
+    console.log(url)
+    fetch(url, { method: 'GET' })
+    .then((response) => {
+      if (!response.ok) {
+        // If the response status code is not OK, throw an error
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then((data) => {
+      console.log("Map URL received:", data); // Log the returned map URL for debugging
+      setMapsrc(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching map data:", error); // Log the error for debugging
+    });
+  }
+  useEffect(() => {
+    if (event && event.address) {
+      if(mapsrc === '') {
+        getMapSrc(event.address);
+      }
+    }
+  }, [event]);
+
   useEffect(() => {
     const fetchEvent = async () => {
       const eventRef = doc(firestore, "events", eventId);
@@ -146,11 +176,8 @@ function EventPage() {
   };
 
   if (!event) {
-    return <div>Loading event...</div>; // Handle loading state
+    return <div>Loading event...</div>;
   }
-
-  let addr = event.address;
-  let mapsrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBAgyvoRzJxAHngkRMjpl5NlGY01Rtih0s&q=${addr}`;
 
   const isRegistered = userRegisteredEvents.includes(eventId);
   const isHost = user && event.host === user.name;
@@ -226,16 +253,21 @@ function EventPage() {
       </Card>
 
       <Card sx={{ mb: 3, height: "450px" }}>
-        <iframe
-          src={mapsrc}
-          width="100%"
-          height="100%"
-          //style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+        {mapsrc ? (
+          <iframe
+            src={mapsrc}
+            width="100%"
+            height="100%"
+            //style="border:0;"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        ) : (
+          <div>Loading map...</div>
+        )}
       </Card>
+
     </Container>
   );
 }
