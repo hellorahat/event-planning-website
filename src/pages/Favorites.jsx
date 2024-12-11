@@ -10,6 +10,8 @@ import {
   getDocs,
   updateDoc,
   arrayRemove,
+  setDoc,
+  arrayUnion,
 } from "firebase/firestore";
 
 const Favorites = () => {
@@ -85,9 +87,31 @@ const Favorites = () => {
     }
   }, [user]);
 
-  //const addToCart = (watch) => {
-  // Implement your add to cart functionality here
-  //};
+  const handleCart = async (productId) => {
+    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID
+
+    try {
+      // Reference to the cart document
+      const cartDocRef = doc(firestore, "cart", userId);
+      const cartDoc = await getDoc(cartDocRef);
+
+      // Add productId to the cart
+      if (cartDoc.exists()) {
+        await updateDoc(cartDocRef, {
+          productIds: arrayUnion(productId),
+        });
+      } else {
+        await setDoc(cartDocRef, {
+          productIds: [productId],
+        });
+      }
+
+      removeFavorite(productId);
+      alert("Product has been added to the cart and removed from favorites.");
+    } catch (error) {
+      console.error("Error adding product to cart: ", error);
+    }
+  };
 
   return (
     <Box
@@ -146,7 +170,7 @@ const Favorites = () => {
                   className="mb-3 outline-success"
                   variant="contained"
                   color="success"
-                  //onClick={() => addToCart(id)}
+                  onClick={() => handleCart(id)}
                 >
                   Add to Cart
                 </Button>
