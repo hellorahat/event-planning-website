@@ -33,9 +33,12 @@ function AddProduct() {
     productName: "",
     sellerName: user ? user.name : "", // Autofill seller name from context if available
     type: "",
+    brand: "",
+    url: "",
+    photo: "",
   });
 
-  const [images, setImages] = useState([]);
+  const [image, setImage] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,25 +49,20 @@ function AddProduct() {
   };
 
   const handleImageChange = (e) => {
-    setImages(e.target.files);
+    setImage(e.target.files[0]);
   };
 
   async function addProduct(e) {
     e.preventDefault();
     try {
-      // Step 1: Upload images if provided
-      let imagePaths = [];
-      let imageUrls = [];
-      if (images.length > 0) {
-        for (let i = 0; i < images.length; i++) {
-          const image = images[i];
-          const imagePath = `images/${image.name}`; // Define the storage path (you can modify this as needed)
-          const imageRef = ref(storage, imagePath);
-          await uploadBytes(imageRef, image); // Upload the image
-          const imageUrl = await getDownloadURL(imageRef);
-          imagePaths.push(imagePath);
-          imageUrls.push(imageUrl);
-        }
+      // Step 1: Upload the image if provided
+      let imagePath = null; // This will hold the image path
+      let imageUrl = null;
+      if (image) {
+        imagePath = `images/${image.name}`; // Define the storage path (you can modify this as needed)
+        const imageRef = ref(storage, imagePath);
+        await uploadBytes(imageRef, image); // Upload the image
+        imageUrl = await getDownloadURL(imageRef);
       }
 
       // Step 2: Add the product to the "marketplace" collection
@@ -78,7 +76,9 @@ function AddProduct() {
         productName: formData.productName,
         sellerName: formData.sellerName,
         type: formData.type,
-        images: imagePaths, // Store image paths
+        brand: formData.brand,
+        photo: imageUrl, // Store image paths
+        url: imagePath,
       });
       console.log("Product created.");
 
@@ -212,6 +212,19 @@ function AddProduct() {
             id="type"
             name="type"
             value={formData.type}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="type" className="form-label">
+            Brand
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="brand"
+            name="brand"
+            value={formData.brand}
             onChange={handleInputChange}
           />
         </div>
