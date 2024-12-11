@@ -11,6 +11,7 @@
 }
 
 .product-card {
+  position: relative; /* Set the card to relative to position the favorite button inside it */
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -19,7 +20,7 @@
   text-align: left;
   transition: transform 0.3s;
   overflow: hidden;
-  width: 100%; /* Ensure the product card spans the full container width */
+  width: 100%;
 }
 
 .product-image {
@@ -73,4 +74,24 @@
 .plus-icon {
   font-size: 1.4em;
   margin-right: 10px;
+}
+
+/* Favorite Button */
+.favorite-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px; /* Position the button 10px from the bottom */
+  right: 10px; /* Position the button 10px from the right */
+  padding: 5px;
+}
+
+.favorite-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.favorite-icon.favorited {
+  fill: red; /* Change color or use a different icon when favorited */
 }

@@ -1,14 +1,25 @@
 import { useState, useEffect } from "react";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import { firestore } from "../../firebase.js";
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
+import { firestore, auth } from "../../firebase.js";
 import { Link } from "react-router-dom"; // Import Link for navigation
 import Sidebar from "./Sidebar.jsx";
+import iconFavorite from "../assets/favorite.svg";
 import "../styles/Marketplace.css";
 
 function Marketplace() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [isFavorited, setIsFavorited] = useState({}); // State to manage favorites
 
   // Fetch products from Firestore
   useEffect(() => {
@@ -80,6 +91,34 @@ function Marketplace() {
     setFilteredProducts(products.filter(applyFilters));
   };
 
+  // Handle favorite click
+  const handleFavorite = async (productId) => {
+    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID, e.g., from Firebase Authentication
+
+    try {
+      const favoriteDocRef = doc(firestore, "favorites", userId); // Use userId as the document name
+      const favoriteDoc = await getDoc(favoriteDocRef);
+
+      if (favoriteDoc.exists()) {
+        // If the document exists, update the productIds array by adding the new productId
+        await updateDoc(favoriteDocRef, {
+          productIds: arrayUnion(productId), // Add the productId to the array
+        });
+      } else {
+        // If the document doesn't exist, create a new document with an array containing the first productId
+        await setDoc(favoriteDocRef, {
+          productIds: [productId], // Initialize with an array of the first productId
+        });
+      }
+
+      // Update local state to show the favorite button as "favorited"
+      setIsFavorited((prev) => ({ ...prev, [productId]: true }));
+      alert("Product has been favorited.");
+    } catch (error) {
+      console.error("Error adding favorite: ", error);
+    }
+  };
+
   return (
     <div className="marketplace-container">
       <Sidebar
@@ -104,6 +143,21 @@ function Marketplace() {
                 <p className="product-brand">{product.brand}</p>
                 <p className="product-price">${product.price}</p>
               </div>
+
+              {/* Favorite Button */}
+              <button
+                className="favorite-btn"
+                onClick={() => handleFavorite(product.id)}
+                aria-label="Add to Favorites"
+              >
+                <img
+                  src={iconFavorite}
+                  alt="Favorite"
+                  className={`favorite-icon ${
+                    isFavorited[product.id] ? "favorited" : ""
+                  }`}
+                />
+              </button>
             </div>
           ))
         ) : (
