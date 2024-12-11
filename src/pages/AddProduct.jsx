@@ -49,7 +49,7 @@ function AddProduct() {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    setImage(e.target.files);
   };
 
   async function addProduct(e) {
