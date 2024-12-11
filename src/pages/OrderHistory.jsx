@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { getDoc, doc } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 import { getStorage, getDownloadURL, ref } from 'firebase/storage';
+import '../styles/OrderHistory.css';
 
 function OrderHistory() {
     const [orders, setOrders] = useState([]);
-    const { user } = useUser(); // Access the user from context
-    const storage = getStorage(); // Initialize Firebase Storage
+    const { user } = useUser();
+    const storage = getStorage();
+    const [expandedOrders, setExpandedOrders] = useState({}); // Track expanded orders
 
     useEffect(() => {
         if (user?.uid) {
@@ -50,35 +52,49 @@ function OrderHistory() {
 
             fetchOrders();
         }
-    }, [user]); // Re-run the effect if user changes
+    }, [user]);
+
+    const toggleOrder = (orderId) => {
+        setExpandedOrders((prev) => ({
+            ...prev,
+            [orderId]: !prev[orderId],
+        }));
+    };
 
     return (
-        <div>
-            <h1>Order History</h1>
+        <div className="order-history-container">
+            <h1 className='center-text'>Order History</h1>
             {orders.length === 0 ? (
                 <p>No orders found.</p>
             ) : (
-                <ul>
+                <ul className="order-list">
                     {orders.map((order) => (
-                        <li key={order.orderId}>
-                            <h3>Order ID: {order.orderId}</h3>
-                            <div>
-                                {order.products.map((product) => (
-                                    <div
-                                        key={product.productId}
-                                        style={{ display: 'inline-block', margin: '10px' }}
-                                    >
-                                        {product.imageUrl ? (
-                                            <img
-                                                src={product.imageUrl}
-                                                alt={`Product ${product.productId}`}
-                                                style={{ width: '100px', height: '100px' }}
-                                            />
-                                        ) : (
-                                            <p>Image not available for {product.productId}</p>
-                                        )}
-                                    </div>
-                                ))}
+                        <li key={order.orderId} className="order-item">
+                            <div
+                                className="order-header"
+                                onClick={() => toggleOrder(order.orderId)}
+                            >
+                                <h3 className='custom-text'>Order ID: {order.orderId}</h3>
+                                <button className="toggle-button">
+                                    {expandedOrders[order.orderId] ? '-' : '+'}
+                                </button>
+                            </div>
+                            <div className={`order-panel ${expandedOrders[order.orderId] ? 'open' : ''}`}>
+                                <div className="product-container">
+                                    {order.products.map((product) => (
+                                        <div key={product.productId} className="product-item">
+                                            {product.imageUrl ? (
+                                                <img
+                                                    src={product.imageUrl}
+                                                    alt={`Product ${product.productId}`}
+                                                    className="product-image"
+                                                />
+                                            ) : (
+                                                <p>Image not available for {product.productId}</p>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </li>
                     ))}
