@@ -66,7 +66,7 @@ function Marketplace() {
         filters.category?.length &&
         !filters.category.includes(product.category)
       ) {
-        return false;
+        return ;
       }
 
       if (filters.brand?.length && !filters.brand.includes(product.brand)) {
