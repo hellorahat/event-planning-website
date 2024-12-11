@@ -8,9 +8,8 @@ import Login from "../pages/Login";
 import Events from "../pages/Events";
 import PlanEvent from "../pages/PlanEvent";
 import Eventpage from "../pages/Eventpage";
-import Cart from "../pages/cart";
 import Favorites from "../pages/Favorites";
-// import Cart from "../pages/Cart";
+import Cart from "../pages/Cart";
 // import Product from "../pages/product";
 // import "../styles/Contents.css";
 
