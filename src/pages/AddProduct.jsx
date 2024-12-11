@@ -79,6 +79,7 @@ function AddProduct() {
         brand: formData.brand,
         photo: imageUrl, // Store image paths
         url: imagePath,
+        userId: auth.currentUser.uid,
       });
       console.log("Product created.");
 
@@ -118,6 +119,20 @@ function AddProduct() {
       <h1 className="addproducttitle">Add Product</h1>
       <form onSubmit={addProduct} className="addproduct">
         {/* Product input fields */}
+        <div className="mb-3">
+          <label htmlFor="type" className="form-label">
+            Host
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="host"
+            name="host"
+            value={formData.sellerName}
+            onChange={handleInputChange}
+            disabled
+          />
+        </div>
         <div className="mb-3">
           <label htmlFor="productName" className="form-label">
             Product Name
