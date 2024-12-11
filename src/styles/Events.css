@@ -65,7 +65,7 @@
   background-color: #0056b3;
 }
 
-.delete-button {
+.delete-event-button {
   background-color: #dc3545;
   color: white;
   padding: 10px 15px;
@@ -76,7 +76,7 @@
   font-size: 1em;
 }
 
-.delete-button:hover {
+.delete-event-button:hover {
   background-color: #c82333;
 }
 
