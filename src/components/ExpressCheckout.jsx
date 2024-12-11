@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import apiUrl from "../utility/apiUrl"
+import "../styles/ExpressCheckout.css"
 
 const ExpressCheckout = ({ products }) => {
   const stripe = useStripe();
@@ -37,11 +38,11 @@ const ExpressCheckout = ({ products }) => {
 
   return (
     sessionId ? (
-      <button onClick={handleCheckout}>
+      <button className="checkout-btn" onClick={handleCheckout}>
         Checkout with Stripe
       </button>
     ) : (
-      <p>Loading...</p>
+      <p className="checkout-btn">Loading...</p>
     )
   );
 };

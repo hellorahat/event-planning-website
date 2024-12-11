@@ -137,7 +137,7 @@ const Checkout = () => {
           <Typography variant="h5" textAlign="right" mb={2}>
             Total: ${totalPrice}
           </Typography>
-          <CheckoutForm />
+          {/* <CheckoutForm /> */}
           <br />
           <ExpressCheckout products={cartProducts} />
         </Box>

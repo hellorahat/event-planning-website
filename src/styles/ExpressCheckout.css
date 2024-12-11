@@ -1,0 +1,24 @@
+.checkout-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    width: 300px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .checkout-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .checkout-btn:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+  }
+  

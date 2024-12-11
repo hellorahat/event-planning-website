@@ -190,7 +190,7 @@ const Cart = () => {
             className="checkout-button"
             onClick={handleCheckout}
           >
-            Checkout
+            Continue
           </Button>          
         </Box>
       )}
