@@ -5,19 +5,22 @@ import { BrowserRouter } from 'react-router-dom'
 import { CartProvider } from './utility/CartContext.jsx'
 import { FavoritesProvider } from './utility/FavoritesContext.jsx'
 import { AlertProvider } from './utility/AlertContext.jsx'
+import { UserProvider } from "./utility/UserContext.jsx"
 import AlertComponent from './components/AlertComponent.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter basename="/">
     <>
-    <AlertProvider>
-        <CartProvider>
-          <FavoritesProvider>
-            <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet" />
-            <App />
-            <AlertComponent />
-          </FavoritesProvider>
-        </CartProvider>
+      <AlertProvider>
+        <UserProvider>
+          <CartProvider>
+            <FavoritesProvider>
+              <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet" />
+              <App />
+              <AlertComponent />
+            </FavoritesProvider>
+          </CartProvider>
+        </UserProvider>
       </AlertProvider>
     </>
   </BrowserRouter>

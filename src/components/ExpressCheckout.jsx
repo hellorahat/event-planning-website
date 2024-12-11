@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
+import { useUser } from "../utility/UserContext.jsx";
 import apiUrl from "../utility/apiUrl"
 import "../styles/ExpressCheckout.css"
 
 const ExpressCheckout = ({ products }) => {
   const stripe = useStripe();
   const [sessionId, setSessionId] = useState(null);
+  const { user } = useUser();
 
   // Function to create a checkout session
   const createCheckoutSession = async () => {
+    const userId = user.uid
     const response = await fetch(apiUrl.postPaymentUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ products }),
+      body: JSON.stringify({ products, userId }),
     });
 
     const session = await response.json();
@@ -31,10 +34,10 @@ const ExpressCheckout = ({ products }) => {
 
   // When the session ID is ready, enable the checkout button
   useEffect(() => {
-    if (products) {
+    if (products && user?.uid) {
       createCheckoutSession();
     }
-  }, [products]);
+  }, [products, user?.uid]);
 
   return (
     sessionId ? (

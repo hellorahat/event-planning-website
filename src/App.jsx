@@ -15,10 +15,8 @@ function App() {
       <Banner />
       <NavBar />
       <Redirectory />
-       <Elements stripe={stripePromise}> 
-      <UserProvider>
+      <Elements stripe={stripePromise}> 
         <Contents />
-      </UserProvider>
       </Elements> 
       <div className="placeholder-space"></div>
       <Footer />
