@@ -1,20 +1,97 @@
 "use client";
 
 import { Box, Stack, Typography, Button } from "@mui/material";
-import { useFavorites } from "../utility/FavoritesContext";
-import { retrieveSource } from "../utility/retrieveSource";
+import { useEffect, useState } from "react";
+import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  arrayRemove,
+} from "firebase/firestore";
 
 const Favorites = () => {
-  const { favorites, removeFavorite } = useFavorites();
+  const [favorites, setFavorites] = useState([]);
+  const [user, setUser] = useState(null); // Assume you have some way of setting the current user's ID
 
-  const addToCart = (watch) => {
-    removeFavorite(watch);
+  // Function to fetch user favorites from Firestore
+  const fetchFavorites = async (userId) => {
+    try {
+      // Get the user's favorites document from the "favorites" collection
+      const userRef = doc(firestore, "favorites", userId); // Reference to the user's document in "favorites" collection
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const favoriteIds = userData.productIds || []; // Assuming "productIds" is an array of product IDs
+
+        // Fetch product details from the "marketplace" collection using productIds
+        const productQuery = collection(firestore, "marketplace");
+        const productSnapshot = await getDocs(productQuery);
+        const productMap = {};
+
+        productSnapshot.forEach((doc) => {
+          const product = doc.data();
+          productMap[doc.id] = {
+            photo: product.photo, // Assuming photo is the field name for the product image
+            productName: product.productName, // Assuming productName is the field name
+            sellerName: product.sellerName, // Assuming sellerName is the field name
+            price: product.price, // Assuming price is the field name
+          };
+        });
+
+        // Get all favorite products using the IDs and only the relevant fields
+        const favoriteProducts = favoriteIds.map((id) => ({
+          id,
+          ...productMap[id],
+        }));
+
+        setFavorites(favoriteProducts);
+      }
+    } catch (error) {
+      console.error("Error fetching favorites: ", error);
+    }
   };
+
+  // Function to remove a product from favorites
+  const removeFavorite = async (productId) => {
+    if (!user) return;
+
+    try {
+      // Reference to the user's favorites document in "favorites" collection
+      const userRef = doc(firestore, "favorites", user);
+
+      // Update the user's favorites document by removing the product ID from "productIds"
+      await updateDoc(userRef, {
+        productIds: arrayRemove(productId), // Remove the product ID from the "productIds" array
+      });
+
+      // After removing from Firestore, update the local state to reflect the changes
+      setFavorites((prevFavorites) =>
+        prevFavorites.filter((favorite) => favorite.id !== productId)
+      );
+    } catch (error) {
+      console.error("Error removing favorite: ", error);
+    }
+  };
+
+  useEffect(() => {
+    // Replace with actual method of getting the current user ID
+    const userId = auth.currentUser.uid; // Replace with dynamic user ID
+    setUser(userId);
+    if (userId) {
+      fetchFavorites(userId);
+    }
+  }, [user]);
+
+  //const addToCart = (watch) => {
+  // Implement your add to cart functionality here
+  //};
 
   return (
     <Box
       width="100vw"
-      // height="100vh"
       display="flex"
       justifyContent="center"
       flexDirection="column"
@@ -29,7 +106,7 @@ const Favorites = () => {
       </Box>
       {favorites.length > 0 ? (
         <Stack width="80%" spacing={3}>
-          {favorites.map(({ id, brand, model, image, price }) => (
+          {favorites.map(({ id, photo, productName, sellerName, price }) => (
             <Box
               key={id}
               display="flex"
@@ -46,18 +123,18 @@ const Favorites = () => {
             >
               <Box display="flex" alignItems="center" gap={3}>
                 <img
-                  src={retrieveSource(image)}
-                  alt={model}
+                  src={photo}
+                  alt={productName}
                   width="200px"
                   height="200px"
                   style={{ borderRadius: "10px" }}
                 />
                 <Box>
                   <Typography variant="h5" color="#198754">
-                    {brand}
+                    {productName}
                   </Typography>
                   <Typography variant="subtitle1" color="#666">
-                    {model}
+                    Seller: {sellerName}
                   </Typography>
                   <Typography variant="subtitle2" color="#999">
                     Price: {price}
@@ -69,7 +146,7 @@ const Favorites = () => {
                   className="mb-3 outline-success"
                   variant="contained"
                   color="success"
-                  onClick={() => addToCart(id)}
+                  //onClick={() => addToCart(id)}
                 >
                   Add to Cart
                 </Button>
@@ -86,7 +163,7 @@ const Favorites = () => {
         </Stack>
       ) : (
         <Typography variant="h6" color="#666">
-          You have no favorite watches yet.
+          You have no favorite products yet.
         </Typography>
       )}
     </Box>
