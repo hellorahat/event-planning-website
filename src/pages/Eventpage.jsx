@@ -157,7 +157,7 @@ function EventPage() {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Card sx={{ p: 3, mb: 3 }}>
+      <Card sx={{ p: 3, mb: 3, backgroundColor: "#f9f9f9" }}>
         <Grid2 container spacing={2}>
           <Grid2 item xs={3}>
             <Avatar
@@ -199,23 +199,26 @@ function EventPage() {
               </Button>
 
               {/* Delete Event Button (Visible only for the host) */}
-              {isHost && (
-                <Button
-                  variant="contained"
-                  color="error"
-                  sx={{ ml: 2 }}
-                  onClick={() => handleDeleteEvent(eventId, true, event.photo)}
-                >
-                  Delete Event
-                </Button>
-              )}
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ ml: 2 }}
+                onClick={() =>
+                  isHost
+                    ? handleDeleteEvent(eventId, true, event.photo)
+                    : handleDeleteEvent(eventId)
+                }
+                disabled={!isRegistered}
+              >
+                {isHost ? "Delete Event" : "Unregister"}
+              </Button>
             </Box>
           </Grid2>
         </Grid2>
       </Card>
 
       {/* About the Event */}
-      <Card sx={{ p: 3, mb: 3 }}>
+      <Card sx={{ p: 3, mb: 3, backgroundColor: "#f9f9f9" }}>
         <Typography variant="h5" gutterBottom>
           About the Event
         </Typography>
