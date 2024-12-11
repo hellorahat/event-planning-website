@@ -179,7 +179,7 @@ const Cart = () => {
           </Typography>
           <CheckoutForm />
           <br />
-          <ExpressCheckout amount={Math.round(totalPrice * 100)} />
+          <ExpressCheckout products={cartProducts} amount={Math.round(totalPrice * 100)} />
         </Box>
       )}
     </Box>
