@@ -8,7 +8,7 @@ import { AlertProvider } from './utility/AlertContext.jsx'
 import AlertComponent from './components/AlertComponent.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename="/event-planning-website">
+  <BrowserRouter basename="/">
     <>
     <AlertProvider>
         <CartProvider>
