@@ -121,7 +121,7 @@ function AddProduct() {
         {/* Product input fields */}
         <div className="mb-3">
           <label htmlFor="type" className="form-label">
-            Host
+            Seller's Username
           </label>
           <input
             type="text"
