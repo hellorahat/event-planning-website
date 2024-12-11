@@ -302,7 +302,7 @@ function EventCard({
             : "Register"}
         </button>
         {isHost && (
-          <button className="delete-button" onClick={handleDeleteClick}>
+          <button className="delete-event-button" onClick={handleDeleteClick}>
             Delete Event
           </button>
         )}
