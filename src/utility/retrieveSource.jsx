@@ -1,4 +1,4 @@
-const images = import.meta.glob("../assets/watches/**/*.{png,jpg,jpeg,svg}");
+const images = import.meta.glob("../assets/**/*.{png,jpg,jpeg,svg}");
 
 const imageSources = {};
 
