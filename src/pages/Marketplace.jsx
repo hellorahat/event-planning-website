@@ -10,10 +10,10 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { firestore, auth } from "../../firebase.js";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import Sidebar from "./Sidebar.jsx";
 import iconFavorite from "../assets/favorite.svg";
-import iconCart from "../assets/cart.svg"; 
+import iconCart from "../assets/cart.svg";
 import "../styles/Marketplace.css";
 
 function Marketplace() {
@@ -21,41 +21,40 @@ function Marketplace() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [isFavorited, setIsFavorited] = useState({});
-  const [isInCart, setIsInCart] = useState({}); 
-
+  const [isInCart, setIsInCart] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
       const querySnapshot = await getDocs(collection(firestore, "marketplace"));
       const productsData = querySnapshot.docs.map((doc) => ({
-        id: doc.id, 
-        ...doc.data(), 
+        id: doc.id,
+        ...doc.data(),
       }));
 
       setProducts(productsData);
-      setFilteredProducts(productsData); 
+      setFilteredProducts(productsData);
     };
 
     fetchProducts();
   }, []);
 
-  const filterOptions = [ {
-    label: "Category",
-    filterKey: "category",
-    values: ["Electronics", "Furniture", "Clothing"],
-  },
-  {
-    label: "Brand",
-    filterKey: "brand",
-    values: ["Samsung", "Apple", "Nike", "Adidas", "IKEA"],
-  },
-  {
-    label: "Price Range",
-    filterKey: "priceRange",
-    values: ["$0-$50", "$50-$100", "$100-$500", "$500+"],
-  },
-
-
+  const filterOptions = [
+    {
+      label: "Category",
+      filterKey: "category",
+      values: ["Electronics", "Furniture", "Clothing"],
+    },
+    {
+      label: "Brand",
+      filterKey: "brand",
+      values: ["Samsung", "Apple", "Nike", "Adidas", "IKEA"],
+    },
+    {
+      label: "Price Range",
+      filterKey: "priceRange",
+      values: ["$0-$50", "$50-$100", "$100-$500", "$500+"],
+    },
   ];
 
   const handleFilterChange = (filters) => {
@@ -95,10 +94,10 @@ function Marketplace() {
   };
 
   const handleFavorite = async (productId) => {
-    const userId = auth.currentUser.uid; 
+    const userId = auth.currentUser.uid;
 
     try {
-      const favoriteDocRef = doc(firestore, "favorites", userId); 
+      const favoriteDocRef = doc(firestore, "favorites", userId);
       const favoriteDoc = await getDoc(favoriteDocRef);
 
       if (favoriteDoc.exists()) {
@@ -119,10 +118,10 @@ function Marketplace() {
   };
 
   const handleCart = async (productId) => {
-    const userId = auth.currentUser.uid; 
+    const userId = auth.currentUser.uid;
 
     try {
-      const cartDocRef = doc(firestore, "cart", userId); 
+      const cartDocRef = doc(firestore, "cart", userId);
       const cartDoc = await getDoc(cartDocRef);
 
       if (cartDoc.exists()) {
@@ -140,6 +139,10 @@ function Marketplace() {
     } catch (error) {
       console.error("Error adding product to cart: ", error);
     }
+  };
+
+  const handleCardClick = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
   return (

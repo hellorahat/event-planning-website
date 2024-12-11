@@ -49,7 +49,7 @@ function AddProduct() {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files);
+    setImage(e.target.files[0]);
   };
 
   async function addProduct(e) {
@@ -144,6 +144,7 @@ function AddProduct() {
             name="productName"
             value={formData.productName}
             onChange={handleInputChange}
+            required
           />
         </div>
 
@@ -158,6 +159,7 @@ function AddProduct() {
             name="color"
             value={formData.color}
             onChange={handleInputChange}
+            required
           />
         </div>
 
@@ -172,6 +174,7 @@ function AddProduct() {
             name="condition"
             value={formData.condition}
             onChange={handleInputChange}
+            required
           />
         </div>
 
@@ -200,6 +203,7 @@ function AddProduct() {
             name="location"
             value={formData.location}
             onChange={handleInputChange}
+            required
           />
         </div>
 
@@ -214,12 +218,13 @@ function AddProduct() {
             name="price"
             value={formData.price}
             onChange={handleInputChange}
+            required
           />
         </div>
 
         <div className="mb-3">
           <label htmlFor="type" className="form-label">
-            Type
+            Category
           </label>
           <input
             type="text"
@@ -228,6 +233,7 @@ function AddProduct() {
             name="type"
             value={formData.type}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -241,6 +247,7 @@ function AddProduct() {
             name="brand"
             value={formData.brand}
             onChange={handleInputChange}
+            required
           />
         </div>
 
@@ -255,6 +262,7 @@ function AddProduct() {
             accept="image/*"
             multiple
             onChange={handleImageChange}
+            required
           />
         </div>
 
