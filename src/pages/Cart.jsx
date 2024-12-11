@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import CheckoutForm from "../components/CheckoutForm.jsx";
 import PaymentRequestButton from "../components/PaymentRequestButton";
+import ExpressCheckout from "../components/ExpressCheckout.jsx";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -178,7 +179,7 @@ const Cart = () => {
           </Typography>
           <CheckoutForm />
           <br />
-          <PaymentRequestButton amount={Math.round(totalPrice * 100)} />
+          <ExpressCheckout amount={Math.round(totalPrice * 100)} />
         </Box>
       )}
     </Box>
