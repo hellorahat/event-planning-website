@@ -67,6 +67,9 @@ function Productpages() {
             <h2>{product.productName}</h2>
             <hr />
             <p>
+              <strong>Price:</strong> ${product.price}
+            </p>
+            <p>
               <strong>Seller:</strong> {product.sellerName}
             </p>
             <p>
