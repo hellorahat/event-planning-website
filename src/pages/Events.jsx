@@ -255,6 +255,14 @@ function EventCard({
     return description;
   };
 
+  const truncateaddr = (description) => {
+    const words = description.split(" ");
+    if (words.length > 5) {
+      return words.slice(0, 4).join(" ") + " ...";
+    }
+    return description;
+  };
+
   return (
     <div className="event-card">
       <div
@@ -282,7 +290,7 @@ function EventCard({
           <strong>Host:</strong> {event.host}
         </p>
         <p className="event-location">
-          <strong>Location:</strong> {event.address}
+          <strong>Location:</strong> {truncateaddr(event.address)}
         </p>
       </div>
       <div className="events-buttons">

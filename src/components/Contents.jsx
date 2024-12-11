@@ -8,6 +8,8 @@ import Login from "../pages/Login";
 import Events from "../pages/Events";
 import PlanEvent from "../pages/PlanEvent";
 import Eventpage from "../pages/Eventpage";
+import Cart from "../pages/cart";
+import Favorites from "../pages/Favorites";
 // import Cart from "../pages/Cart";
 // import Product from "../pages/product";
 // import "../styles/Contents.css";
@@ -22,6 +24,8 @@ function Contents() {
         <Route path="/events" element={<Events />}></Route>
         <Route path="/plan-event" element={<PlanEvent />}></Route>
         <Route path="/account" element={<Login />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/favorites" element={<Favorites />}></Route>
         <Route path="/eventpage/:eventId" element={<Eventpage />}></Route>
         {/* <Route path="/cart" element={<Cart />}></Route>
         <Route path="/product/:id" element={<Product />}></Route> */}
