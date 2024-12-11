@@ -1,72 +1,71 @@
-import { useState } from "react";
-// import "../styles/SideBar.css";
+import React, { useState } from "react";
 
-function Sidebar({ onFilterChange, filterOptions }) {
-  const [openSection, setOpenSection] = useState(null);
+function Sidebar({ filterOptions, onFilterChange }) {
+  const [expandedSections, setExpandedSections] = useState({}); // State to manage expanded sections
   const [selectedFilters, setSelectedFilters] = useState({});
 
   const toggleSection = (section) => {
-    setOpenSection(openSection === section ? null : section);
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
   };
 
-  const handleFilterClick = (event, filterType, value) => {
-    // Prevent the click event from bubbling up to the button
-    event.stopPropagation();
+  const handleFilterSelect = (filterKey, value) => {
+    setSelectedFilters((prev) => {
+      const updatedFilters = { ...prev };
+      if (updatedFilters[filterKey]?.includes(value)) {
+        updatedFilters[filterKey] = updatedFilters[filterKey].filter(
+          (v) => v !== value
+        );
+      } else {
+        updatedFilters[filterKey] = [...(updatedFilters[filterKey] || []), value];
+      }
+      return updatedFilters;
+    });
+  };
 
-    const currentFilters = selectedFilters[filterType] || [];
-    const updatedFilters = currentFilters.includes(value)
-      ? currentFilters.filter((item) => item !== value)
-      : [...currentFilters, value];
-
-    const updatedSelectedFilters = {
-      ...selectedFilters,
-      [filterType]: updatedFilters,
-    };
-
-    setSelectedFilters(updatedSelectedFilters);
-    onFilterChange(updatedSelectedFilters);
+  const applyFilters = () => {
+    onFilterChange(selectedFilters);
   };
 
   return (
     <div className="sidebar">
-      <ul>
-        {filterOptions.map((option, index) => (
-          <li key={index}>
-            <button onClick={() => toggleSection(index)}>
-              {option.label}{" "}
-              <span
-                className={`arrow ${openSection === index ? "up" : "down"}`}
-              ></span>
-            </button>
-            <div
-              className={`dropdown ${openSection === index ? "active" : ""}`}
-            >
+      <h2>Filters</h2>
+      {filterOptions.map((option) => (
+        <div key={option.label} className="accordion-section">
+          <div
+            className="accordion-header"
+            onClick={() => toggleSection(option.label)}
+          >
+            {option.label}
+            <span className="accordion-icon">
+              {expandedSections[option.label] ? "-" : "+"}
+            </span>
+          </div>
+          {expandedSections[option.label] && (
+            <ul className="accordion-content">
               {option.values.map((value) => (
-                <p
-                  key={value}
-                  onClick={(event) =>
-                    handleFilterClick(event, option.filterKey, value)
-                  }
-                  className={
-                    (selectedFilters[option.filterKey] || []).includes(value)
-                      ? "selected"
-                      : ""
-                  }
-                >
-                  <span
-                    className={`bubble ${
-                      (selectedFilters[option.filterKey] || []).includes(value)
-                        ? "selected"
-                        : ""
-                    }`}
-                  ></span>
-                  {value}
-                </p>
+                <li key={value}>
+                  <label className="filter-label">
+                    <input
+                      type="checkbox"
+                      checked={
+                        selectedFilters[option.filterKey]?.includes(value) || false
+                      }
+                      onChange={() => handleFilterSelect(option.filterKey, value)}
+                    />
+                    {value}
+                  </label>
+                </li>
               ))}
-            </div>
-          </li>
-        ))}
-      </ul>
+            </ul>
+          )}
+        </div>
+      ))}
+      <button className="apply-filters-btn" onClick={applyFilters}>
+        Apply Filters
+      </button>
     </div>
   );
 }

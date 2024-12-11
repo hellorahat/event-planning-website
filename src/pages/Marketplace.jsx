@@ -13,7 +13,7 @@ import { firestore, auth } from "../../firebase.js";
 import { Link } from "react-router-dom"; // Import Link for navigation
 import Sidebar from "./Sidebar.jsx";
 import iconFavorite from "../assets/favorite.svg";
-import iconCart from "../assets/cart.svg"; // Import a cart icon (you need to add this asset)
+import iconCart from "../assets/cart.svg"; 
 import "../styles/Marketplace.css";
 
 function Marketplace() {
@@ -21,40 +21,26 @@ function Marketplace() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [isFavorited, setIsFavorited] = useState({});
-  const [isInCart, setIsInCart] = useState({}); // State to manage cart status
+  const [isInCart, setIsInCart] = useState({}); 
 
-  // Fetch products from Firestore
+
   useEffect(() => {
     const fetchProducts = async () => {
       const querySnapshot = await getDocs(collection(firestore, "marketplace"));
       const productsData = querySnapshot.docs.map((doc) => ({
-        id: doc.id, // Document ID as the product ID
-        ...doc.data(), // Spread the document data into the product object
+        id: doc.id, 
+        ...doc.data(), 
       }));
 
       setProducts(productsData);
-      setFilteredProducts(productsData); // Initially display all products
+      setFilteredProducts(productsData); 
     };
 
     fetchProducts();
   }, []);
 
   const filterOptions = [
-    {
-      label: "Category",
-      filterKey: "category",
-      values: ["Electronics", "Furniture", "Clothing"],
-    },
-    {
-      label: "Brand",
-      filterKey: "brand",
-      values: ["Samsung", "Apple", "Nike", "Adidas", "IKEA"],
-    },
-    {
-      label: "Price Range",
-      filterKey: "priceRange",
-      values: ["$0-$50", "$50-$100", "$100-$500", "$500+"],
-    },
+
   ];
 
   const handleFilterChange = (filters) => {
@@ -93,12 +79,11 @@ function Marketplace() {
     setFilteredProducts(products.filter(applyFilters));
   };
 
-  // Handle favorite click
   const handleFavorite = async (productId) => {
-    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID
+    const userId = auth.currentUser.uid; 
 
     try {
-      const favoriteDocRef = doc(firestore, "favorites", userId); // Use userId as the document name
+      const favoriteDocRef = doc(firestore, "favorites", userId); 
       const favoriteDoc = await getDoc(favoriteDocRef);
 
       if (favoriteDoc.exists()) {
@@ -118,12 +103,11 @@ function Marketplace() {
     }
   };
 
-  // Handle cart click
   const handleCart = async (productId) => {
-    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID
+    const userId = auth.currentUser.uid; 
 
     try {
-      const cartDocRef = doc(firestore, "cart", userId); // Use userId as the document name
+      const cartDocRef = doc(firestore, "cart", userId); 
       const cartDoc = await getDoc(cartDocRef);
 
       if (cartDoc.exists()) {
