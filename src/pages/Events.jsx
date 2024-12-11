@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useAlerts } from "../utility/AlertContext.jsx";
+
 import {
   getFirestore,
   collection,
@@ -19,6 +21,7 @@ import "../styles/Events.css";
 
 function Events() {
   const [events, setEvents] = useState([]);
+  const { addAlert } = useAlerts();
   const { user } = useUser(); // Use the `useUser` hook to get the current user
   const [userRegisteredEvents, setUserRegisteredEvents] = useState([]);
   const navigate = useNavigate(); // Initialize navigate
@@ -62,7 +65,7 @@ function Events() {
 
   const handleRegister = async (eventId, eventName) => {
     if (!user) {
-      alert("Please log in to register for an event.");
+      addAlert("Please log in to register for an event.");
       navigate("/account"); // Redirect to the account/login page
       return;
     }
@@ -80,7 +83,7 @@ function Events() {
       );
 
       setUserRegisteredEvents((prev) => [...prev, eventId]); // Update the UI
-      alert(`You have registered for ${eventName}`);
+      addAlert(`You have registered for ${eventName}`);
     } catch (error) {
       console.error("Error registering for event:", error);
     }
@@ -128,10 +131,10 @@ function Events() {
           prevEvents.filter((event) => event.id !== eventId)
         );
 
-        alert("Event deleted, and image removed from storage.");
+        addAlert("Event deleted, and image removed from storage.");
       } catch (error) {
         console.error("Error deleting event and image:", error);
-        alert("There was an error deleting the event and image.");
+        addAlert("There was an error deleting the event and image.");
       }
     } else {
       try {
@@ -142,7 +145,7 @@ function Events() {
         });
 
         setUserRegisteredEvents((prev) => prev.filter((id) => id !== eventId));
-        alert("You have unregistered from this event.");
+        addAlert("You have unregistered from this event.");
       } catch (error) {
         console.error("Error unregistering from event:", error);
       }
@@ -232,9 +235,9 @@ function EventCard({
     if (!isRegistered && user && user.name !== event.host) {
       onRegister(event.id, event.name);
     } else if (user && user.name === event.host) {
-      alert(`You are the host for ${event.name}. You are already registered.`);
+      addAlert(`You are the host for ${event.name}. You are already registered.`);
     } else {
-      alert(`Please sign in to register for event.`);
+      addAlert(`Please sign in to register for event.`);
     }
   };
 

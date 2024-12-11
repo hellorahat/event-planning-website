@@ -24,8 +24,10 @@ import { arrayUnion, arrayRemove } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import apiUrl from "../utility/apiUrl.jsx";
+import { useAlerts } from "../utility/AlertContext.jsx";
 
 function EventPage() {
+  const { addAlert } = useAlerts()
   const { eventId } = useParams(); // Get the eventId from the URL
   const [event, setEvents] = useState(null);
   const { user } = useUser(); // Get the current user
@@ -88,7 +90,7 @@ function EventPage() {
 
   const handleRegister = async () => {
     if (!user) {
-      alert("Please log in to register for an event.");
+      addAlert("Please log in to register for an event.");
       return; // Optionally, redirect to login page if needed
     }
 
@@ -105,7 +107,7 @@ function EventPage() {
       );
 
       setUserRegisteredEvents((prev) => [...prev, eventId]); // Update UI to reflect the registration
-      alert(`You have successfully registered for ${event.name}`);
+      addAlert(`You have successfully registered for ${event.name}`);
     } catch (error) {
       console.error("Error registering for event:", error);
     }
@@ -153,11 +155,11 @@ function EventPage() {
           prevEvents.filter((event) => event.id !== eventId)
         );
 
-        alert("Event deleted, and image removed from storage.");
+        addAlert("Event deleted, and image removed from storage.");
         navigate("/events");
       } catch (error) {
         console.error("Error deleting event and image:", error);
-        alert("There was an error deleting the event and image.");
+        addAlert("There was an error deleting the event and image.");
       }
     } else {
       try {
@@ -168,7 +170,7 @@ function EventPage() {
         });
 
         setUserRegisteredEvents((prev) => prev.filter((id) => id !== eventId));
-        alert("You have unregistered from this event.");
+        addAlert("You have unregistered from this event.");
       } catch (error) {
         console.error("Error unregistering from event:", error);
       }

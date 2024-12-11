@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAlerts } from "../utility/AlertContext.jsx";
 import {
   getFirestore,
   collection,
@@ -17,6 +18,7 @@ import iconCart from "../assets/cart.svg";
 import "../styles/Marketplace.css";
 
 function Marketplace() {
+  const { addAlert } = useAlerts();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
@@ -141,7 +143,7 @@ function Marketplace() {
       }
 
       setIsFavorited((prev) => ({ ...prev, [productId]: true }));
-      alert("Product has been favorited.");
+      addAlert("Product has been favorited.");
     } catch (error) {
       console.error("Error adding favorite: ", error);
     }
@@ -165,7 +167,7 @@ function Marketplace() {
       }
 
       setIsInCart((prev) => ({ ...prev, [productId]: true }));
-      alert("Product has been added to the cart.");
+      addAlert("Product has been added to the cart.");
     } catch (error) {
       console.error("Error adding product to cart: ", error);
     }

@@ -3,11 +3,13 @@ import {
   useStripe,
   PaymentRequestButtonElement,
 } from "@stripe/react-stripe-js";
+import { useAlerts } from "../utility/AlertContext.jsx"
 
 const PaymentRequestButton = ({ amount }) => {
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
   const [canMakePayment, setCanMakePayment] = useState(false);
+  const { addAlert } = useAlerts();
 
   useEffect(() => {
     if (stripe) {
@@ -41,7 +43,7 @@ const PaymentRequestButton = ({ amount }) => {
           event.complete("fail");
         } else {
           event.complete("success");
-          alert("Payment successful!");
+          addAlert("Payment successful!");
         }
       });
     }

@@ -2,6 +2,7 @@
 
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useAlerts } from "../utility/AlertContext.jsx";
 import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
 import {
   doc,
@@ -17,6 +18,7 @@ import {
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [user, setUser] = useState(null); // Assume you have some way of setting the current user's ID
+  const { addAlert } = useAlerts();
 
   // Function to fetch user favorites from Firestore
   const fetchFavorites = async (userId) => {
@@ -107,7 +109,7 @@ const Favorites = () => {
       }
 
       removeFavorite(productId);
-      alert("Product has been added to the cart and removed from favorites.");
+      addAlert("Product has been added to the cart and removed from favorites.");
     } catch (error) {
       console.error("Error adding product to cart: ", error);
     }
