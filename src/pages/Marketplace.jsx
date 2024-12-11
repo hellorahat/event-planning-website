@@ -44,6 +44,11 @@ function Marketplace() {
     filterKey: "category",
     values: ["Electronics", "Furniture", "Clothing"],
   },
+  {
+    label: "Brand",
+    filterKey: "brand",
+    values: ["Samsung", "Apple", "Nike", "Adidas", "IKEA"],
+  },
 
 
   ];
