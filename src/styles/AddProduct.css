@@ -1,12 +1,14 @@
-/* Center the layout and set the width */
 .addproduct {
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  background-color: #f9f9f9; /* Optional: Add a background for visibility */
-  padding: 1.5rem; /* Add some padding */
-  border-radius: 8px; /* Optional: Round the corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
-}
+  flex-direction: column; 
+  background-color: #f9f9f9; 
+  padding: 1.5rem; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  max-width: 600px; 
+  margin: 0 auto; 
+  position: relative; 
+  min-height: 80vh; 
 
 .addproducttitle {
   text-align: center;
@@ -17,6 +19,7 @@
   align-self: center;
   align-items: center;
   justify-content: center;
+  margin-top: auto; 
 }
 
 .btn {
@@ -30,7 +33,27 @@
 .addproductpage {
   align-items: center;
   justify-content: center;
-  padding-right: 33.33%; /* Add some padding */
-  padding-left: 33.33%; /* Add some padding */
+  padding-right: 33.33%;
+  padding-left: 33.33%; 
   padding-bottom: 3.5%;
+  position: relative;
+}
+
+.addproductbtn-fixed {
+  position: fixed; 
+  bottom: 20px; 
+  right: 20px; 
+  z-index: 1000; 
+  padding: 0.75rem 1.5rem;
+  background-color: #28a745;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.addproductbtn-fixed:hover {
+  background-color: #218838;
+}
 }

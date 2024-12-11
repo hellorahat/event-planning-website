@@ -1,17 +1,27 @@
 .marketplace-container {
   padding: 20px;
-  text-align: left;
+  display: flex; 
+  justify-content: space-between;
+  gap: 20px; 
+}
+
+.sidebar {
+  width: 250px; 
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-listing {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); 
   gap: 20px;
-  margin-top: 30px;
-}
+  margin-top: 0; 
+  flex: 1; 
 
 .product-card {
-  position: relative; /* Set the card to relative to position the favorite button inside it */
+  position: relative;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -26,10 +36,10 @@
 .product-image {
   width: 100%;
   height: auto;
-  max-height: 200px; /* Limit the height to avoid large images */
-  object-fit: cover; /* Ensures the image scales properly without distorting */
+  max-height: 200px;
+  object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 15px; /* Adds some space between the image and text */
+  margin-bottom: 15px;
 }
 
 .product-card:hover {
@@ -76,14 +86,13 @@
   margin-right: 10px;
 }
 
-/* Favorite Button */
 .favorite-btn {
   background: transparent;
   border: none;
   cursor: pointer;
   position: absolute;
-  bottom: 10px; /* Position the button 10px from the bottom */
-  right: 10px; /* Position the button 10px from the right */
+  bottom: 10px;
+  right: 10px;
   padding: 5px;
 }
 
@@ -93,16 +102,16 @@
 }
 
 .favorite-icon.favorited {
-  fill: red; /* Change color or use a different icon when favorited */
+  fill: red;
 }
-/* Cart Button */
+
 .cart-btn {
   background: transparent;
   border: none;
   cursor: pointer;
   position: absolute;
   bottom: 10px;
-  right: 50px; /* Adjust to space out from favorite button */
+  right: 50px;
   padding: 5px;
 }
 
@@ -112,5 +121,26 @@
 }
 
 .cart-icon.in-cart {
-  fill: green; /* Change color or icon when the product is in the cart */
+  fill: green;
+}
+
+@media (max-width: 768px) {
+  .marketplace-container {
+    flex-direction: column; 
+    align-items: center;
+  }
+
+  .sidebar {
+    width: 100%; 
+    margin-bottom: 20px; 
+  }
+
+  .product-listing {
+    width: 100%;
+  }
+
+  .product-card {
+    width: 100%; 
+  }
+}
 }
