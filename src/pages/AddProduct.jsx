@@ -28,7 +28,6 @@ function AddProduct() {
     color: "",
     condition: "",
     description: "",
-    location: "",
     price: "",
     productName: "",
     sellerName: user ? user.name : "", // Autofill seller name from context if available
@@ -71,7 +70,6 @@ function AddProduct() {
         color: formData.color,
         condition: formData.condition,
         description: formData.description,
-        location: formData.location,
         price: formData.price,
         productName: formData.productName,
         sellerName: formData.sellerName,
@@ -190,21 +188,6 @@ function AddProduct() {
             value={formData.description}
             onChange={handleInputChange}
           ></textarea>
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="location" className="form-label">
-            Location
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="location"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-            required
-          />
         </div>
 
         <div className="mb-3">
