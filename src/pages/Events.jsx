@@ -293,6 +293,7 @@ function EventCard({
           <strong>Location:</strong> {truncateaddr(event.address)}
         </p>
       </div>
+      <div className="placeholder-space"></div>
       <div className="events-buttons">
         <button className="register-button" onClick={handleRegisterClick}>
           {isHost
