@@ -17,16 +17,10 @@ import  "../styles/productpage.css";
 function Productpages() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
-  return <>{isMobile ? <MobileLayout /> : <DesktopLayout />}</>;
+  return <>{ <DesktopLayout />}</>;
 }
 
-function MobileLayout() {
-  return (
-    <div>
-      <h1>Mobile About Us</h1>
-    </div>
-  );
-}
+
 
 function DesktopLayout() {
 
