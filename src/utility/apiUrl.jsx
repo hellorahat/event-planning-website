@@ -1,4 +1,4 @@
-const baseUrl = 'https://puzzled-truthful-glade.glitch.me/';
+const baseUrl = 'https://server-eventflow.glitch.me/';
 
 const endpoints = {
   getMap: 'map/get-location',

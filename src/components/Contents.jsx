@@ -11,6 +11,9 @@ import Eventpage from "../pages/Eventpage";
 import Favorites from "../pages/Favorites";
 import Productpage from "../pages/AddProduct";
 import Cart from "../pages/Cart";
+import Checkout from "../pages/Checkout";
+import Success from "../pages/Success";
+import Cancel from "../pages/Cancel";
 // import Product from "../pages/product";
 // import "../styles/Contents.css";
 
@@ -28,8 +31,9 @@ function Contents() {
         <Route path="/favorites" element={<Favorites />}></Route>
         <Route path="/eventpage/:eventId" element={<Eventpage />}></Route>
         <Route path="/add-product" element={<Productpage />}></Route>
-        {/* <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/product/:id" element={<Product />}></Route> */}
+        <Route path="/checkout" element={<Checkout />}></Route>
+        <Route path="/success" element={<Success />}></Route>
+        <Route path="/cancel" element={<Cancel />}></Route>
       </Routes>
     </div>
   );

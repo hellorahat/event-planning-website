@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import apiUrl from "../utility/apiUrl"
 
-const ExpressCheckout = ({ products, amount }) => {
+const ExpressCheckout = ({ products }) => {
   const stripe = useStripe();
   const [sessionId, setSessionId] = useState(null);
 
@@ -30,10 +30,10 @@ const ExpressCheckout = ({ products, amount }) => {
 
   // When the session ID is ready, enable the checkout button
   useEffect(() => {
-    if (amount) {
+    if (products) {
       createCheckoutSession();
     }
-  }, [amount]);
+  }, [products]);
 
   return (
     sessionId ? (

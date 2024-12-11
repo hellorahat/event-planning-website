@@ -1,7 +1,6 @@
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
-import { useNavigate } from 'react-router-dom';
 import {
   doc,
   getDoc,
@@ -13,17 +12,11 @@ import {
 import CheckoutForm from "../components/CheckoutForm.jsx";
 import PaymentRequestButton from "../components/PaymentRequestButton";
 import ExpressCheckout from "../components/ExpressCheckout.jsx";
-import "../styles/Cart.css"
 
-const Cart = () => {
+const Checkout = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [user, setUser] = useState(null); // Assume you have some way of setting the current user's ID
   const [totalPrice, setTotalPrice] = useState(0);
-  const navigate = useNavigate();
-
-  const handleCheckout = () => {
-    navigate('/checkout');
-  };
 
   // Function to fetch user cart data from Firestore
   const fetchCartData = async (userId) => {
@@ -57,7 +50,7 @@ const Cart = () => {
         }));
 
         setCartProducts(cartItems);
-
+        console.log(JSON.stringify(cartItems))
         // Calculate the total price of the cart
         const total = cartItems.reduce(
           (acc, product) => acc + parseFloat(product.price),
@@ -67,37 +60,6 @@ const Cart = () => {
       }
     } catch (error) {
       console.error("Error fetching cart data: ", error);
-    }
-  };
-
-  // Function to remove a product from cart and update total price
-  const removeFromCart = async (productId) => {
-    if (!user) return;
-
-    try {
-      const cartRef = doc(firestore, "cart", user);
-      // Update the user's cart document by removing the product ID from "productIds"
-      await updateDoc(cartRef, {
-        productIds: arrayRemove(productId),
-      });
-
-      // After removing from Firestore, update the local state to reflect the changes
-      setCartProducts((prevCart) => {
-        const updatedCart = prevCart.filter(
-          (cartItem) => cartItem.id !== productId
-        );
-
-        // Recalculate the total price after removal
-        const newTotal = updatedCart.reduce(
-          (acc, product) => acc + parseFloat(product.price),
-          0
-        );
-        setTotalPrice(newTotal.toFixed(2)); // Update the total price state
-
-        return updatedCart;
-      });
-    } catch (error) {
-      console.error("Error removing from cart: ", error);
     }
   };
 
@@ -162,15 +124,6 @@ const Cart = () => {
                   </Typography>
                 </Box>
               </Box>
-              <div className="d-flex flex-column justify-content-center">
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => removeFromCart(id)}
-                >
-                  Remove from Cart
-                </Button>
-              </div>
             </Box>
           ))}
         </Stack>
@@ -184,18 +137,13 @@ const Cart = () => {
           <Typography variant="h5" textAlign="right" mb={2}>
             Total: ${totalPrice}
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            className="checkout-button"
-            onClick={handleCheckout}
-          >
-            Checkout
-          </Button>          
+          <CheckoutForm />
+          <br />
+          <ExpressCheckout products={cartProducts} />
         </Box>
       )}
     </Box>
   );
 };
 
-export default Cart;
+export default Checkout;
