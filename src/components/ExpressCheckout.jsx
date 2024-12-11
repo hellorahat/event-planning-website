@@ -15,7 +15,7 @@ const ExpressCheckout = ({ products }) => {
     });
 
     const session = await response.json();
-    setSessionId(session.id);
+    setSessionId(session.sessionId);
   };
 
   // Handle button click to redirect to Stripe Checkout
