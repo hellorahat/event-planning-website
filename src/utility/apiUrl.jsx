@@ -1,4 +1,4 @@
-const baseUrl = 'https://cubic-fan-octagon.glitch.me/';
+const baseUrl = 'https://puzzled-truthful-glade.glitch.me/';
 
 const endpoints = {
   getMap: 'map/get-location',
