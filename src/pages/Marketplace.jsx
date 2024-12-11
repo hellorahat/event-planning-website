@@ -65,11 +65,6 @@ function Marketplace() {
       filterKey: "condition",
       values: ["New", "Used", "Refurbished"],
     },
-    {
-      label: "Description",
-      filterKey: "description",
-      values: ["Sale", "Limited Edition", "Exclusive", "Clearance"],
-    },
   ];
 
   const handleFilterChange = (filters) => {
