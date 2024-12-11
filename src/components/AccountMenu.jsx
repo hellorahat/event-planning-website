@@ -298,11 +298,10 @@ function AccountSettings({
 
   return (
     <>
-      <div className="upper-box">
-        <h5>Hello, {user.name}!</h5>
-      </div>
-
       <div className="d-flex flex-column justify-content-center sign-in py-2">
+        <div className="upper-box">
+          <h5>Hello, {user.name}!</h5>
+        </div>
         <div>
           <Link to="/order-history" className="links">
             <p>Order History</p>
