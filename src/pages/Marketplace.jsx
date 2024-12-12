@@ -9,6 +9,7 @@ import {
   setDoc,
   updateDoc,
   arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import { firestore, auth } from "../../firebase.js";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,6 +26,8 @@ function Marketplace() {
   const [isFavorited, setIsFavorited] = useState({});
   const [isInCart, setIsInCart] = useState({});
   const [isSeller, setIsSeller] = useState({});
+  const [favorites, setFavorites] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -152,14 +155,47 @@ function Marketplace() {
       console.error("Error adding favorite: ", error);
     }
   };
+  // Function to remove a product from favorites
+  const removeFavorite = async (productId) => {
+    const userId = auth.currentUser.uid;
+    console.log(userId, productId);
+    if (!userId) return;
+
+    try {
+      // Reference to the user's favorites document in "favorites" collection
+      const userRef = doc(firestore, "favorites", userId);
+
+      // Update the user's favorites document by removing the product ID from "productIds"
+      await updateDoc(userRef, {
+        productIds: arrayRemove(productId), // Remove the product ID from the "productIds" array
+      });
+
+      // After removing from Firestore, update the local state to reflect the changes
+      setFavorites((prevFavorites) =>
+        prevFavorites.filter((favorite) => favorite.id !== productId)
+      );
+    } catch (error) {
+      console.error("Error removing favorite: ", error);
+    }
+  };
 
   const handleCart = async (productId) => {
     const userId = auth.currentUser.uid;
 
     try {
+      const favoriteDocRef = doc(firestore, "favorites", userId);
       const cartDocRef = doc(firestore, "cart", userId);
-      const cartDoc = await getDoc(cartDocRef);
 
+      // Remove from favorites if exists
+      const favoriteDoc = await getDoc(favoriteDocRef);
+      if (favoriteDoc.exists()) {
+        await updateDoc(favoriteDocRef, {
+          productIds: arrayRemove(productId),
+        });
+      }
+
+      // Add to cart
+      const cartDoc = await getDoc(cartDocRef);
       if (cartDoc.exists()) {
         await updateDoc(cartDocRef, {
           productIds: arrayUnion(productId),
@@ -171,6 +207,7 @@ function Marketplace() {
       }
 
       setIsInCart((prev) => ({ ...prev, [productId]: true }));
+      removeFavorite(productId);
       addAlert("Product has been added to the cart.");
     } catch (error) {
       console.error("Error adding product to cart: ", error);
