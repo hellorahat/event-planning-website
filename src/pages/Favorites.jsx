@@ -3,7 +3,7 @@
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAlerts } from "../utility/AlertContext.jsx";
-import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
+import { firestore, auth } from "../../firebase.js";
 import {
   doc,
   getDoc,
@@ -17,20 +17,16 @@ import {
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
-  const [user, setUser] = useState(null); // Assume you have some way of setting the current user's ID
+  const [user, setUser] = useState(null);
   const { addAlert } = useAlerts();
 
-  // Function to fetch user favorites from Firestore
   const fetchFavorites = async (userId) => {
     try {
-      // Get the user's favorites document from the "favorites" collection
-      const userRef = doc(firestore, "favorites", userId); // Reference to the user's document in "favorites" collection
+      const userRef = doc(firestore, "favorites", userId);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        const favoriteIds = userData.productIds || []; // Assuming "productIds" is an array of product IDs
-
-        // Fetch product details from the "marketplace" collection using productIds
+        const favoriteIds = userData.productIds || [];
         const productQuery = collection(firestore, "marketplace");
         const productSnapshot = await getDocs(productQuery);
         const productMap = {};
@@ -38,14 +34,13 @@ const Favorites = () => {
         productSnapshot.forEach((doc) => {
           const product = doc.data();
           productMap[doc.id] = {
-            photo: product.photo, // Assuming photo is the field name for the product image
-            productName: product.productName, // Assuming productName is the field name
-            sellerName: product.sellerName, // Assuming sellerName is the field name
-            price: product.price, // Assuming price is the field name
+            photo: product.photo,
+            productName: product.productName,
+            sellerName: product.sellerName,
+            price: product.price,
           };
         });
 
-        // Get all favorite products using the IDs and only the relevant fields
         const favoriteProducts = favoriteIds.map((id) => ({
           id,
           ...productMap[id],
@@ -58,20 +53,16 @@ const Favorites = () => {
     }
   };
 
-  // Function to remove a product from favorites
   const removeFavorite = async (productId) => {
     if (!user) return;
 
     try {
-      // Reference to the user's favorites document in "favorites" collection
       const userRef = doc(firestore, "favorites", user);
 
-      // Update the user's favorites document by removing the product ID from "productIds"
       await updateDoc(userRef, {
-        productIds: arrayRemove(productId), // Remove the product ID from the "productIds" array
+        productIds: arrayRemove(productId),
       });
 
-      // After removing from Firestore, update the local state to reflect the changes
       setFavorites((prevFavorites) =>
         prevFavorites.filter((favorite) => favorite.id !== productId)
       );
@@ -81,8 +72,7 @@ const Favorites = () => {
   };
 
   useEffect(() => {
-    // Replace with actual method of getting the current user ID
-    const userId = auth.currentUser.uid; // Replace with dynamic user ID
+    const userId = auth.currentUser.uid;
     setUser(userId);
     if (userId) {
       fetchFavorites(userId);
@@ -90,14 +80,12 @@ const Favorites = () => {
   }, [user]);
 
   const handleCart = async (productId) => {
-    const userId = auth.currentUser.uid; // Replace with the actual logged-in user's ID
+    const userId = auth.currentUser.uid;
 
     try {
-      // Reference to the cart document
       const cartDocRef = doc(firestore, "cart", userId);
       const cartDoc = await getDoc(cartDocRef);
 
-      // Add productId to the cart
       if (cartDoc.exists()) {
         await updateDoc(cartDocRef, {
           productIds: arrayUnion(productId),

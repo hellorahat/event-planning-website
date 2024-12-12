@@ -15,18 +15,17 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../../firebase.js";
 import { useUser } from "../utility/UserContext.jsx";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import "../styles/Events.css";
 
 function Events() {
   const [events, setEvents] = useState([]);
   const { addAlert } = useAlerts();
-  const { user } = useUser(); // Use the `useUser` hook to get the current user
+  const { user } = useUser();
   const [userRegisteredEvents, setUserRegisteredEvents] = useState([]);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  // Fetch events from Firestore
   useEffect(() => {
     const fetchEvents = async () => {
       const querySnapshot = await getDocs(collection(firestore, "events"));
@@ -35,11 +34,10 @@ function Events() {
         ...doc.data(),
       }));
 
-      // If the user is the host, automatically add the event to their registered events
       if (user) {
         const updatedEvents = eventData.map((event) => {
           if (event.host === user.name) {
-            setUserRegisteredEvents((prev) => [...prev, event.id]); // Add host events to registered events
+            setUserRegisteredEvents((prev) => [...prev, event.id]);
           }
           return event;
         });
@@ -66,14 +64,13 @@ function Events() {
   const handleRegister = async (eventId, eventName) => {
     if (!user) {
       addAlert("Please log in to register for an event.");
-      navigate("/account"); // Redirect to the account/login page
+      navigate("/account");
       return;
     }
 
     try {
       const userDocRef = doc(firestore, "registered-events", user.uid);
 
-      // Add the event to the user's registered-events document
       await setDoc(
         userDocRef,
         {
@@ -82,7 +79,7 @@ function Events() {
         { merge: true }
       );
 
-      setUserRegisteredEvents((prev) => [...prev, eventId]); // Update the UI
+      setUserRegisteredEvents((prev) => [...prev, eventId]);
       addAlert(`You have registered for ${eventName}`);
     } catch (error) {
       console.error("Error registering for event:", error);
@@ -92,17 +89,14 @@ function Events() {
   const handleDelete = async (eventId, isHost, imagePath) => {
     if (isHost) {
       try {
-        // Remove the eventId from the user's registered events
         const userDocRef = doc(firestore, "registered-events", user.uid);
         await updateDoc(userDocRef, {
           eventIds: arrayRemove(eventId),
         });
 
-        // Delete the event document from 'events' collection
         const eventDocRef = doc(firestore, "events", eventId);
         await deleteDoc(eventDocRef);
 
-        // Remove the eventId from all users who are registered for the event
         const registeredEventsSnapshot = await getDocs(
           collection(firestore, "registered-events")
         );
@@ -116,17 +110,15 @@ function Events() {
           }
         });
 
-        // Delete the image file from Firebase Storage (in the "images" folder)
         if (imagePath) {
           const storage = getStorage();
-          const imageRef = ref(storage, imagePath); // Use the passed imagePath
+          const imageRef = ref(storage, imagePath);
           await deleteObject(imageRef);
           console.log("Image deleted from Firebase Storage.");
         } else {
           console.log("No image path found for deletion.");
         }
 
-        // Update the events state
         setEvents((prevEvents) =>
           prevEvents.filter((event) => event.id !== eventId)
         );
@@ -138,7 +130,6 @@ function Events() {
       }
     } else {
       try {
-        // For non-hosts: Remove the eventId from the user's registered events
         const userDocRef = doc(firestore, "registered-events", user.uid);
         await updateDoc(userDocRef, {
           eventIds: arrayRemove(eventId),
@@ -153,7 +144,7 @@ function Events() {
   };
 
   const handleCardClick = (eventId) => {
-    navigate(`/eventpage/${eventId}`); // Navigate to the event page with eventId
+    navigate(`/eventpage/${eventId}`);
   };
 
   return (
@@ -169,7 +160,7 @@ function Events() {
             onDelete={handleDelete}
             isRegistered={userRegisteredEvents.includes(event.id)}
             imagePath={event.url}
-            handleCardClick={handleCardClick} // Pass handleCardClick as a prop
+            handleCardClick={handleCardClick}
           />
         ))}
       </div>
@@ -244,14 +235,13 @@ function EventCard({
   };
 
   const userName = user ? user.name : "";
-  const isHost = userName === event.host; // Check if current user is the host
+  const isHost = userName === event.host;
 
   const handleDeleteClick = (e) => {
-    e.stopPropagation(); // Prevent event propagation so clicking the button won't trigger the card click
-    onDelete(event.id, true, event.url); // Delete the event
+    e.stopPropagation();
+    onDelete(event.id, true, event.url);
   };
 
-  // Truncate description to 15 words and add "..."
   const truncateDescription = (description) => {
     const words = description.split(" ");
     if (words.length > 15) {
@@ -271,15 +261,11 @@ function EventCard({
   return (
     <div className="event-card">
       <div
-        onClick={() => handleCardClick(event.id)} // Trigger handleCardClick when the card is clicked
-        style={{ cursor: "pointer" }} // Add a pointer cursor to show it's clickable
+        onClick={() => handleCardClick(event.id)}
+        style={{ cursor: "pointer" }}
       >
         {event.url && (
-          <img
-            src={event.photo} // Assuming event.photo contains the image URL
-            alt={event.name}
-            className="event-image"
-          />
+          <img src={event.photo} alt={event.name} className="event-image" />
         )}
         <h3 className="event-title">{event.name}</h3>
         <p className="event-description">
