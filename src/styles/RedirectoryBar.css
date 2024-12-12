@@ -3,6 +3,7 @@
   justify-content: center; /* Center the buttons */
   margin-top: 120px;
   gap: 10px; /* Space between buttons */
+  padding: 10px;
 }
 
 /* Styles for the transparent buttons */
