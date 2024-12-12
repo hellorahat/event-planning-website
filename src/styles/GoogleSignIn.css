@@ -15,7 +15,7 @@
     transition: background-color 0.3s ease;
   }
   
-  /* Hover effect */
+
   .google-btn:hover {
     background-color: #357ae8;
   }

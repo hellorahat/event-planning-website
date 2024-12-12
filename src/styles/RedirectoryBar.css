@@ -1,49 +1,43 @@
 .Rcontainer-fluid {
-  display: flex; /* Flex layout for horizontal alignment */
-  justify-content: center; /* Center the buttons */
+  display: flex; 
+  justify-content: center; 
   margin-top: 120px;
-  gap: 10px; /* Space between buttons */
+  gap: 10px; 
   padding: 10px;
 }
 
-/* Styles for the transparent buttons */
 .redirectory .btn {
-  position: relative; /* For pseudo-element positioning */
+  position: relative; 
   font-size: 20px;
   height: 50px;
-  color: black; /* Default text color */
-  transition: all 0.3s ease; /* Smooth transition for hover and active states */
+  color: black; 
+  transition: all 0.3s ease; 
   padding: 0.5rem 4rem;
   width: 300px;
   font-family: "Luckiest Guy";
 }
 
-/* Hover and active underline effect */
 .redirectory .btn::after {
-  content: ""; /* Empty content for the line */
+  content: ""; 
   position: absolute;
-  bottom: -3px; /* Position the line slightly below the button */
+  bottom: -3px; 
   left: 0;
-  width: 0; /* Initially, the line has no width */
-  height: 3px; /* Thickness of the underline */
-  background-color: #007bff; /* Line color */
-  transition: width 0.3s ease; /* Smooth transition for the line */
+  width: 0; 
+  height: 3px; 
+  background-color: #007bff; 
+  transition: width 0.3s ease; 
 }
 
-/* Hover effect: Line grows */
 .redirectory .btn:hover::after {
-  width: 100%; /* Expand the line to full width */
-}
+  width: 100%; }
 
-/* Active state: Line remains */
 .redirectory .btn.active::after {
-  width: 100%; /* Keep the line full-width for the active button */
-  background-color: #007bff; /* Green color for the active state */
-  transition: none; /* No animation for the active state */
+  width: 100%;
+  background-color: #007bff; 
+  transition: none; 
 }
 
-/* Optional: Active button text styling */
 .redirectory .btn.active {
-  font-weight: bolder; /* Bold text */
-  color: #007bff; /* Green text color */
+  font-weight: bolder; 
+  color: #007bff; 
 }

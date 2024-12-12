@@ -1,11 +1,11 @@
 /* Center the layout and set the width */
 .event {
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  background-color: #f9f9f9; /* Optional: Add a background for visibility */
-  padding: 1.5rem; /* Add some padding */
-  border-radius: 8px; /* Optional: Round the corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  flex-direction: column; 
+  background-color: #f9f9f9; 
+  padding: 1.5rem;
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .eventtitle {
@@ -30,7 +30,7 @@
 .eventpage {
   align-items: center;
   justify-content: center;
-  padding-right: 33.33%; /* Add some padding */
-  padding-left: 33.33%; /* Add some padding */
+  padding-right: 33.33%; 
+  padding-left: 33.33%; 
   padding-bottom: 3.5%;
 }
