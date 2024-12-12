@@ -100,7 +100,10 @@ function Marketplace() {
         return false;
       }
 
-      if (filters.description?.length && !filters.description.includes(product.description)) {
+      if (
+        filters.description?.length &&
+        !filters.description.includes(product.description)
+      ) {
         return false;
       }
 
@@ -197,11 +200,8 @@ function Marketplace() {
                   className="product-image"
                 />
                 <h3 className="product-title">{product.productName}</h3>
-                <p className="product-category">{product.category}</p>
                 <p className="product-brand">{product.brand}</p>
-                <p className="product-color">{product.color}</p>
                 <p className="product-condition">{product.condition}</p>
-                <p className="product-description">{product.description}</p>
                 <p className="product-price">${product.price}</p>
               </div>
 
