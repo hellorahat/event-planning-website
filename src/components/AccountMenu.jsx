@@ -322,7 +322,7 @@ function AccountSettings({
         </div>
         <button
           type="submit"
-          className="btn btn-success me-2 mt-5"
+          className="btn btn-primary me-2 mt-5"
           onClick={handleSignOut}
         >
           Sign Out
