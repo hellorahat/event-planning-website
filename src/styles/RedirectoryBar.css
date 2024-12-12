@@ -9,14 +9,13 @@
 /* Styles for the transparent buttons */
 .redirectory .btn {
   position: relative; /* For pseudo-element positioning */
-  font-family: "Arial", sans-serif;
   font-size: 20px;
-  font-weight: bold;
   height: 50px;
   color: black; /* Default text color */
   transition: all 0.3s ease; /* Smooth transition for hover and active states */
   padding: 0.5rem 4rem;
   width: 300px;
+  font-family: "Luckiest Guy";
 }
 
 /* Hover and active underline effect */
