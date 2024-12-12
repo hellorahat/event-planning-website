@@ -3,3 +3,14 @@
   flex-direction: column;
   align-items: left;
 }
+
+.prdctimg{
+  width: 66.67%;
+  object-fit: contain;
+}
+.imgcontainer{
+  max-height: 650px;
+  display: flex;
+  justify-content: center;
+
+}

@@ -190,9 +190,9 @@ function Productpages() {
         <Grid sx={{ pl: 5, mb: 3 }} size={{ xs: 12, sm: 8 }}>
           <Card sx={{ minWidth: 275 }}>
             {/* Display single product image */}
-            <div className="carousel">
+            <div className="imgcontainer">
               <img
-                className="d-block w-100"
+                className="prdctimg"
                 src={product.photo} // Single image from product
                 alt={product.productName} // Product name as alt text
               />
