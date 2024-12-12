@@ -27,36 +27,35 @@ import apiUrl from "../utility/apiUrl.jsx";
 import { useAlerts } from "../utility/AlertContext.jsx";
 
 function EventPage() {
-  const { addAlert } = useAlerts()
-  const { eventId } = useParams(); // Get the eventId from the URL
+  const { addAlert } = useAlerts();
+  const { eventId } = useParams();
   const [event, setEvents] = useState(null);
-  const { user } = useUser(); // Get the current user
+  const { user } = useUser();
   const [userRegisteredEvents, setUserRegisteredEvents] = useState([]);
   const navigate = useNavigate();
 
-  const [mapsrc, setMapsrc] = useState('');
+  const [mapsrc, setMapsrc] = useState("");
   const getMapSrc = (addr) => {
-    const url = `${apiUrl.getMapUrl}?address=${encodeURIComponent(addr)}`
-    console.log(url)
-    fetch(url, { method: 'GET' })
-    .then((response) => {
-      if (!response.ok) {
-        // If the response status code is not OK, throw an error
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then((data) => {
-      console.log("Map URL received:", data); // Log the returned map URL for debugging
-      setMapsrc(data);
-    })
-    .catch((error) => {
-      console.error("Error fetching map data:", error); // Log the error for debugging
-    });
-  }
+    const url = `${apiUrl.getMapUrl}?address=${encodeURIComponent(addr)}`;
+    console.log(url);
+    fetch(url, { method: "GET" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then((data) => {
+        console.log("Map URL received:", data);
+        setMapsrc(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching map data:", error);
+      });
+  };
   useEffect(() => {
     if (event && event.address) {
-      if(mapsrc === '') {
+      if (mapsrc === "") {
         getMapSrc(event.address);
       }
     }
@@ -91,13 +90,11 @@ function EventPage() {
   const handleRegister = async () => {
     if (!user) {
       addAlert("Please log in to register for an event.");
-      return; // Optionally, redirect to login page if needed
+      return;
     }
 
     try {
       const userDocRef = doc(firestore, "registered-events", user.uid);
-
-      // Add the event to the user's registered-events document
       await setDoc(
         userDocRef,
         {
@@ -106,7 +103,7 @@ function EventPage() {
         { merge: true }
       );
 
-      setUserRegisteredEvents((prev) => [...prev, eventId]); // Update UI to reflect the registration
+      setUserRegisteredEvents((prev) => [...prev, eventId]);
       addAlert(`You have successfully registered for ${event.name}`);
     } catch (error) {
       console.error("Error registering for event:", error);
@@ -116,17 +113,14 @@ function EventPage() {
   const handleDeleteEvent = async (eventId, isHost, imagePath) => {
     if (isHost) {
       try {
-        // Remove the eventId from the user's registered events
         const userDocRef = doc(firestore, "registered-events", user.uid);
         await updateDoc(userDocRef, {
           eventIds: arrayRemove(eventId),
         });
 
-        // Delete the event document from 'events' collection
         const eventDocRef = doc(firestore, "events", eventId);
         await deleteDoc(eventDocRef);
 
-        // Remove the eventId from all users who are registered for the event
         const registeredEventsSnapshot = await getDocs(
           collection(firestore, "registered-events")
         );
@@ -140,17 +134,15 @@ function EventPage() {
           }
         });
 
-        // Delete the image file from Firebase Storage (in the "images" folder)
         if (imagePath) {
           const storage = getStorage();
-          const imageRef = ref(storage, imagePath); // Use the passed imagePath
+          const imageRef = ref(storage, imagePath);
           await deleteObject(imageRef);
           console.log("Image deleted from Firebase Storage.");
         } else {
           console.log("No image path found for deletion.");
         }
 
-        // Update the events state
         setEvents((prevEvents) =>
           prevEvents.filter((event) => event.id !== eventId)
         );
@@ -163,7 +155,6 @@ function EventPage() {
       }
     } else {
       try {
-        // For non-hosts: Remove the eventId from the user's registered events
         const userDocRef = doc(firestore, "registered-events", user.uid);
         await updateDoc(userDocRef, {
           eventIds: arrayRemove(eventId),
@@ -195,7 +186,6 @@ function EventPage() {
               sx={{ width: 120, height: 120 }}
             />
           </Grid2>
-          {/* header */}
           <Grid2 item xs={9}>
             <Typography variant="h4" gutterBottom>
               {event.name}
@@ -212,13 +202,12 @@ function EventPage() {
                 alignItems: "center",
               }}
             >
-              {/* Register Button */}
               <Button
                 variant="contained"
                 color="primary"
                 sx={{ mr: 2 }}
                 onClick={handleRegister}
-                disabled={isRegistered || isHost} // Disable if already registered or host
+                disabled={isRegistered || isHost}
               >
                 {isHost
                   ? "Host - Cannot Register"
@@ -227,7 +216,6 @@ function EventPage() {
                   : "Register"}
               </Button>
 
-              {/* Delete Event Button (Visible only for the host) */}
               <Button
                 variant="contained"
                 color="error"
@@ -246,7 +234,6 @@ function EventPage() {
         </Grid2>
       </Card>
 
-      {/* About the Event */}
       <Card sx={{ p: 3, mb: 3, backgroundColor: "#f9f9f9" }}>
         <Typography variant="h5" gutterBottom>
           About the Event
@@ -260,7 +247,6 @@ function EventPage() {
             src={mapsrc}
             width="100%"
             height="100%"
-            //style="border:0;"
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -269,7 +255,6 @@ function EventPage() {
           <div>Loading map...</div>
         )}
       </Card>
-
     </Container>
   );
 }
