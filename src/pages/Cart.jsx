@@ -146,9 +146,12 @@ const Cart = () => {
                 <img
                   src={photo}
                   alt={productName}
-                  width="200px"
-                  height="200px"
-                  style={{ borderRadius: "10px" }}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
                 />
                 <Box>
                   <Typography variant="h5" color="#007bff">
