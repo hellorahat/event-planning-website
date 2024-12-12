@@ -185,27 +185,29 @@ function Productpages() {
             </p>
             <hr />
             <form>
-              <button
-                type="submit"
-                className="btn btn-primary mb-2"
-                onClick={() => handleFavorite(productId)}
-              >
-                Add to cart
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary mb-2"
-                onClick={() => handleCart(productId)}
-              >
-                Add to favorites
-              </button>
-              <button
-                type="button"
-                className="delete-product btn"
-                onClick={() => handleDeleteProduct(productId)}
-              >
-                Delete Product
-              </button>
+              <div className="button-stack">
+                <button
+                  type="submit"
+                  className="btn btn-primary mb-2"
+                  onClick={() => handleFavorite(productId)}
+                >
+                  Add to cart
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary mb-2"
+                  onClick={() => handleCart(productId)}
+                >
+                  Add to favorites
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger mb-2"
+                  onClick={() => handleDeleteProduct(productId)}
+                >
+                  Delete Product
+                </button>
+              </div>
             </form>
             <hr />
           </div>
