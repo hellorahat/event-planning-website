@@ -8,7 +8,6 @@ const GoogleSignIn = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      // You can access the signed-in user's info here
       const user = result.user;
       console.log("User info:", user);
     } catch (error) {

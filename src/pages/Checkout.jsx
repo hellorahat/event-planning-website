@@ -1,6 +1,6 @@
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
+import { firestore, auth } from "../../firebase.js";
 import {
   doc,
   getDoc,
