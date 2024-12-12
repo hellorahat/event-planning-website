@@ -40,6 +40,7 @@ const Checkout = () => {
             productName: product.productName, // Assuming productName is the field name
             sellerName: product.sellerName, // Assuming sellerName is the field name
             price: product.price, // Assuming price is the field name
+            userId: product.userId
           };
         });
 
