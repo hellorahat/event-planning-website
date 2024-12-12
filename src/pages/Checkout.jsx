@@ -50,7 +50,7 @@ const Checkout = () => {
         }));
 
         setCartProducts(cartItems);
-        console.log(JSON.stringify(cartItems))
+        console.log(JSON.stringify(cartItems));
         // Calculate the total price of the cart
         const total = cartItems.reduce(
           (acc, product) => acc + parseFloat(product.price),
@@ -108,12 +108,15 @@ const Checkout = () => {
                 <img
                   src={photo}
                   alt={productName}
-                  width="200px"
-                  height="200px"
-                  style={{ borderRadius: "10px" }}
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
                 />
                 <Box>
-                  <Typography variant="h5" color="#198754">
+                  <Typography variant="h5" color="#007bff">
                     {productName}
                   </Typography>
                   <Typography variant="subtitle1" color="#666">
