@@ -15,10 +15,9 @@ import { ref, deleteObject } from "firebase/storage";
 
 const AccountProducts = () => {
   const [products, setProducts] = useState([]);
-  const [user, setUser] = useState(null); // Assume you have some way of setting the current user's ID
+  const [user, setUser] = useState(null);
   const { addAlert } = useAlerts();
 
-  // Function to fetch user products from Firestore
   const fetchProducts = async (userId) => {
     try {
       const userRef = doc(firestore, "registered-products", userId);
@@ -59,7 +58,7 @@ const AccountProducts = () => {
     if (!user) return;
 
     try {
-      // Step 1: Delete product image from Firebase Storage
+      // Delete product image from Firebase Storage
       const productRef = doc(firestore, "marketplace", productId);
       const productSnap = await getDoc(productRef);
       const productData = productSnap.data();
@@ -69,11 +68,11 @@ const AccountProducts = () => {
         console.log("Image deleted from Firebase Storage");
       }
 
-      // Step 2: Delete product document from the marketplace collection
+      // Delete product document from the marketplace collection
       await deleteDoc(productRef);
       console.log("Product deleted from 'marketplace' collection");
 
-      // Step 3: Remove productId from the "registered-products" collection
+      // Remove productId from the "registered-products" collection
       const registeredProductsRef = doc(firestore, "registered-products", user);
       const registeredProductsSnap = await getDoc(registeredProductsRef);
       if (registeredProductsSnap.exists()) {
@@ -83,7 +82,7 @@ const AccountProducts = () => {
         console.log("Product removed from 'registered-products'");
       }
 
-      // Step 4: Remove productId from favorites and cart (if exists)
+      // Remove productId from favorites and cart (if exists)
       const favoritesRef = doc(firestore, "favorites", user);
       const favoritesSnap = await getDoc(favoritesRef);
       if (favoritesSnap.exists()) {

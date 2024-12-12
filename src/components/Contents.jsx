@@ -17,8 +17,6 @@ import Cancel from "../pages/Cancel";
 import Productpages from "../pages/Productpages";
 import OrderHistory from "../pages/OrderHistory";
 import AccountProducts from "../pages/AccountProducts";
-// import Product from "../pages/product";
-// import "../styles/Contents.css";
 
 function Contents() {
   return (

@@ -1,6 +1,6 @@
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
+import { firestore, auth } from "../../firebase.js";
 import { useNavigate } from "react-router-dom";
 import {
   doc,
@@ -17,7 +17,7 @@ import "../styles/Cart.css";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
-  const [user, setUser] = useState(null); // Assume you have some way of setting the current user's ID
+  const [user, setUser] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
@@ -25,17 +25,14 @@ const Cart = () => {
     navigate("/checkout");
   };
 
-  // Function to fetch user cart data from Firestore
   const fetchCartData = async (userId) => {
     try {
-      // Get the user's cart document from the "cart" collection
-      const cartRef = doc(firestore, "cart", userId); // Reference to the user's document in "cart" collection
+      const cartRef = doc(firestore, "cart", userId);
       const cartDoc = await getDoc(cartRef);
       if (cartDoc.exists()) {
         const cartData = cartDoc.data();
-        const productIds = cartData.productIds || []; // Assuming "productIds" is an array of product IDs
+        const productIds = cartData.productIds || [];
 
-        // Fetch product details from the "marketplace" collection using productIds
         const productQuery = collection(firestore, "marketplace");
         const productSnapshot = await getDocs(productQuery);
         const productMap = {};
@@ -43,14 +40,13 @@ const Cart = () => {
         productSnapshot.forEach((doc) => {
           const product = doc.data();
           productMap[doc.id] = {
-            photo: product.photo, // Assuming photo is the field name for the product image
-            productName: product.productName, // Assuming productName is the field name
-            sellerName: product.sellerName, // Assuming sellerName is the field name
-            price: product.price, // Assuming price is the field name
+            photo: product.photo,
+            productName: product.productName,
+            sellerName: product.sellerName,
+            price: product.price,
           };
         });
 
-        // Get all products in the cart using the IDs and only the relevant fields
         const cartItems = productIds.map((id) => ({
           id,
           ...productMap[id],
@@ -58,7 +54,6 @@ const Cart = () => {
 
         setCartProducts(cartItems);
 
-        // Calculate the total price of the cart
         const total = cartItems.reduce(
           (acc, product) => acc + parseFloat(product.price),
           0
@@ -70,29 +65,25 @@ const Cart = () => {
     }
   };
 
-  // Function to remove a product from cart and update total price
   const removeFromCart = async (productId) => {
     if (!user) return;
 
     try {
       const cartRef = doc(firestore, "cart", user);
-      // Update the user's cart document by removing the product ID from "productIds"
       await updateDoc(cartRef, {
         productIds: arrayRemove(productId),
       });
 
-      // After removing from Firestore, update the local state to reflect the changes
       setCartProducts((prevCart) => {
         const updatedCart = prevCart.filter(
           (cartItem) => cartItem.id !== productId
         );
 
-        // Recalculate the total price after removal
         const newTotal = updatedCart.reduce(
           (acc, product) => acc + parseFloat(product.price),
           0
         );
-        setTotalPrice(newTotal.toFixed(2)); // Update the total price state
+        setTotalPrice(newTotal.toFixed(2));
 
         return updatedCart;
       });
@@ -102,11 +93,10 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    // Replace with actual method of getting the current user ID
-    const userId = auth.currentUser.uid; // Replace with dynamic user ID
+    const userId = auth.currentUser.uid;
     setUser(userId);
     if (userId) {
-      fetchCartData(userId); // Fetch cart data for the user
+      fetchCartData(userId);
     }
   }, [user]);
 

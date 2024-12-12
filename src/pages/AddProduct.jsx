@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useUser } from "../utility/UserContext"; // Adjust the path based on your project structure
-import { firestore, auth, storage } from "../../firebase.js"; // Include storage
+import { useUser } from "../utility/UserContext";
+import { firestore, auth, storage } from "../../firebase.js";
 import {
   collection,
   addDoc,
@@ -10,13 +10,13 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Firebase Storage functions
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import "../styles/AddProduct.css";
 
 function AddProduct() {
-  const { user, loading } = useUser(); // Get user from context
-  const navigate = useNavigate(); // Hook to programmatically navigate
+  const { user, loading } = useUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -30,7 +30,7 @@ function AddProduct() {
     description: "",
     price: "",
     productName: "",
-    sellerName: user ? user.name : "", // Autofill seller name from context if available
+    sellerName: user ? user.name : "",
     type: "",
     brand: "",
     url: "",
@@ -54,17 +54,16 @@ function AddProduct() {
   async function addProduct(e) {
     e.preventDefault();
     try {
-      // Step 1: Upload the image if provided
-      let imagePath = null; // This will hold the image path
+      let imagePath = null;
       let imageUrl = null;
 
-      // Step 2: Add the product to the "marketplace" collection
-      const productId = doc(collection(firestore, "marketplace")).id; // Use a document ID from Firestore as productId
+      // Add the product to the "marketplace" collection
+      const productId = doc(collection(firestore, "marketplace")).id;
 
       if (image) {
-        imagePath = `images/${productId}`; // Define the storage path (you can modify this as needed)
+        imagePath = `images/${productId}`;
         const imageRef = ref(storage, imagePath);
-        await uploadBytes(imageRef, image); // Upload the image
+        await uploadBytes(imageRef, image);
         imageUrl = await getDownloadURL(imageRef);
       }
 
@@ -77,13 +76,12 @@ function AddProduct() {
         sellerName: formData.sellerName,
         type: formData.type,
         brand: formData.brand,
-        photo: imageUrl, // Store image paths
+        photo: imageUrl,
         url: imagePath,
         userId: auth.currentUser.uid,
       });
       console.log("Product created.");
 
-      // Step 3: Update the "registered-products" collection (optional)
       const userId = auth.currentUser.uid;
       const registeredProductsRef = collection(
         firestore,
@@ -102,9 +100,7 @@ function AddProduct() {
         });
       }
       console.log("Product added to registered-products collection");
-
-      // Step 4: Redirect to the marketplace page
-      navigate("/marketplace"); // Redirect to the marketplace page
+      navigate("/marketplace");
     } catch (e) {
       console.error("Error adding product: ", e);
     }
@@ -118,7 +114,6 @@ function AddProduct() {
     <div className="addproductpage">
       <h1 className="addproducttitle">Add Product</h1>
       <form onSubmit={addProduct} className="addproduct">
-        {/* Product input fields */}
         <div className="mb-3">
           <label htmlFor="type" className="form-label">
             Seller's Username
