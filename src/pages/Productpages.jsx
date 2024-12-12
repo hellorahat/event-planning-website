@@ -11,8 +11,17 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
-import { firestore } from "../../firebase.js";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  deleteDoc,
+} from "firebase/firestore";
+import { firestore, auth, storage } from "../../firebase.js";
+import { ref, deleteObject } from "firebase/storage";
 import "../styles/productpage.css";
 
 function Productpages() {
@@ -40,6 +49,100 @@ function Productpages() {
     fetchProduct();
   }, [productId]);
 
+  const handleFavorite = async (productId) => {
+    const userId = auth.currentUser.uid;
+
+    try {
+      const favoriteDocRef = doc(firestore, "favorites", userId);
+      const favoriteDoc = await getDoc(favoriteDocRef);
+
+      if (favoriteDoc.exists()) {
+        await updateDoc(favoriteDocRef, {
+          productIds: arrayUnion(productId),
+        });
+      } else {
+        await setDoc(favoriteDocRef, {
+          productIds: [productId],
+        });
+      }
+
+      alert("Product has been favorited.");
+    } catch (error) {
+      console.error("Error adding favorite: ", error);
+    }
+  };
+
+  const handleCart = async (productId) => {
+    const userId = auth.currentUser.uid;
+
+    try {
+      const favoriteDocRef = doc(firestore, "favorites", userId);
+      const cartDocRef = doc(firestore, "cart", userId);
+
+      // Remove from favorites if exists
+      const favoriteDoc = await getDoc(favoriteDocRef);
+      if (favoriteDoc.exists()) {
+        await updateDoc(favoriteDocRef, {
+          productIds: arrayRemove(productId),
+        });
+      }
+
+      // Add to cart
+      const cartDoc = await getDoc(cartDocRef);
+      if (cartDoc.exists()) {
+        await updateDoc(cartDocRef, {
+          productIds: arrayUnion(productId),
+        });
+      } else {
+        await setDoc(cartDocRef, {
+          productIds: [productId],
+        });
+      }
+
+      alert("Product has been added to the cart.");
+    } catch (error) {
+      console.error("Error adding product to cart: ", error);
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    const userId = auth.currentUser.uid;
+
+    try {
+      // Step 1: Delete product image from Firebase Storage
+      if (product.url) {
+        const imageRef = ref(storage, product.url);
+        await deleteObject(imageRef);
+        console.log("Image deleted from Firebase Storage");
+      }
+
+      // Step 2: Delete product document from "marketplace" collection
+      const productRef = doc(firestore, "marketplace", productId);
+      await deleteDoc(productRef);
+      console.log("Product deleted from 'marketplace' collection");
+
+      // Step 3: Remove productId from "registered-products" collection
+      const registeredProductsRef = doc(
+        firestore,
+        "registered-products",
+        userId
+      );
+      const registeredProductsSnap = await getDoc(registeredProductsRef);
+
+      if (registeredProductsSnap.exists()) {
+        await updateDoc(registeredProductsRef, {
+          productIds: arrayRemove(productId),
+        });
+        console.log("Product removed from 'registered-products'");
+      }
+
+      alert("Product successfully deleted.");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("An error occurred while deleting the product.");
+    }
+  };
+
   if (loading) {
     return <div>Loading product details...</div>;
   }
@@ -62,7 +165,7 @@ function Productpages() {
           </Card>
         </Grid>
 
-        <Grid sx={{ px: 5, mb: 3 }} size={{ xs: 12,sm:4}}>
+        <Grid sx={{ px: 5, mb: 3 }} size={{ xs: 12, sm: 4 }}>
           <div className="description">
             <h2>{product.productName}</h2>
             <hr />
@@ -85,16 +188,23 @@ function Productpages() {
               <button
                 type="submit"
                 className="btn btn-primary mb-2"
-                onClick={() => handleFavorite(product.id)}
+                onClick={() => handleFavorite(productId)}
               >
                 Add to cart
               </button>
               <button
                 type="submit"
-                className="btn btn-primary"
-                onClick={() => handleCart(product.id)}
+                className="btn btn-primary mb-2"
+                onClick={() => handleCart(productId)}
               >
                 Add to favorites
+              </button>
+              <button
+                type="button"
+                className="delete-product btn"
+                onClick={() => handleDeleteProduct(productId)}
+              >
+                Delete Product
               </button>
             </form>
             <hr />
