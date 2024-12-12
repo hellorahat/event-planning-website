@@ -24,6 +24,7 @@ function Marketplace() {
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [isFavorited, setIsFavorited] = useState({});
   const [isInCart, setIsInCart] = useState({});
+  const [isSeller, setIsSeller] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -180,6 +181,18 @@ function Marketplace() {
     navigate(`/product/${productId}`);
   };
 
+  useEffect(() => {
+    const checkIfSeller = () => {
+      const userId = auth.currentUser.uid;
+      const updatedIsSeller = {};
+      products.forEach((product) => {
+        updatedIsSeller[product.id] = product.userId === userId;
+      });
+      setIsSeller(updatedIsSeller);
+    };
+    checkIfSeller();
+  }, [products]);
+
   return (
     <div className="marketplace-container">
       <Sidebar
@@ -218,6 +231,7 @@ function Marketplace() {
                 className="favorite-btn"
                 onClick={() => handleFavorite(product.id)}
                 aria-label="Add to Favorites"
+                disabled={isSeller[product.id]} // Disable if the user is the seller
               >
                 <img
                   src={iconFavorite}
@@ -233,6 +247,7 @@ function Marketplace() {
                 className="cart-btn"
                 onClick={() => handleCart(product.id)}
                 aria-label="Add to Cart"
+                disabled={isSeller[product.id]} // Disable if the user is the seller
               >
                 <img
                   src={iconCart}
