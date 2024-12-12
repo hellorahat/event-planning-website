@@ -224,7 +224,7 @@ function PlanEvent() {
 
         <div className="eventbtn">
           <div className="col-auto">
-            <button type="submit" className="btn btn-primary mb-3">
+            <button type="submit" className="create-event btn-primary mb-3">
               Create Event
             </button>
           </div>

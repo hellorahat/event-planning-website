@@ -1,14 +1,14 @@
 .addproduct {
   display: flex;
-  flex-direction: column; 
-  background-color: #f9f9f9; 
-  padding: 1.5rem; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  max-width: 600px; 
-  margin: 0 auto; 
-  position: relative; 
-  min-height: 80vh; 
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
 
 .addproducttitle {
   text-align: center;
@@ -19,31 +19,32 @@
   align-self: center;
   align-items: center;
   justify-content: center;
-  margin-top: auto; 
+  margin-top: auto;
 }
 
-.btn {
+.add-product {
   background-color: #007bff;
   border: 2px solid #007bff;
   color: white;
   padding: 0.75rem 4rem;
   width: 100%;
+  border-radius: 10px;
 }
 
 .addproductpage {
   align-items: center;
   justify-content: center;
   padding-right: 33.33%;
-  padding-left: 33.33%; 
+  padding-left: 33.33%;
   padding-bottom: 3.5%;
   position: relative;
 }
 
 .addproductbtn-fixed {
-  position: fixed; 
-  bottom: 20px; 
-  right: 20px; 
-  z-index: 1000; 
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
   padding: 0.75rem 1.5rem;
   background-color: #28a745;
   border-radius: 5px;
@@ -55,5 +56,4 @@
 
 .addproductbtn-fixed:hover {
   background-color: #218838;
-}
 }

@@ -253,7 +253,7 @@ function AddProduct() {
 
         <div className="addproductbtn">
           <div className="col-auto">
-            <button type="submit" className="btn btn-primary mb-3">
+            <button type="submit" className="add-product btn-primary mb-3">
               Add Product
             </button>
           </div>
