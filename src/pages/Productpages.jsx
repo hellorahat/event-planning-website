@@ -179,7 +179,7 @@ function Productpages() {
   }
   return (
     <div>
-      <Grid container spacing={0}>
+      <Grid sx={{ mt:3 }} container spacing={0}>
         <Grid sx={{ pl: 5, mb: 3 }} size={{ xs: 12, sm: 8 }}>
           <Card sx={{ minWidth: 275 }}>
             {/* Display single product image */}
