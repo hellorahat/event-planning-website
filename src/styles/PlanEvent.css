@@ -19,12 +19,13 @@
   justify-content: center;
 }
 
-.btn {
-  background-color: #007bff !important;
-  border: 2px solid #007bff !important;
+.create-event {
+  background-color: #007bff;
+  border: 2px solid #007bff;
   color: white;
-  padding: 0.75rem 4rem !important;
-  width: 100% !important;
+  padding: 0.75rem 4rem;
+  width: 100%;
+  border-radius: 10px;
 }
 .eventpage {
   align-items: center;

@@ -242,7 +242,7 @@ function SignInForm({ showErrorMessage, showSuccessMessage, resetMessages }) {
         <div className="d-flex flex-column justify-content-center">
           <button
             type="submit"
-            className="btn btn-success me-2 mt-4"
+            className="btn btn-primary me-2 mt-4"
             onClick={handleSignIn}
           >
             Submit
@@ -253,7 +253,7 @@ function SignInForm({ showErrorMessage, showSuccessMessage, resetMessages }) {
           <p className="mt-4 mb-0 me-2">Don't have an account?</p>
           <button
             type="create-account"
-            className="btn btn-success me-2"
+            className="btn btn-primary me-2"
             onClick={handleCreateAccount}
           >
             Create Account
@@ -322,7 +322,7 @@ function AccountSettings({
         </div>
         <button
           type="submit"
-          className="btn btn-success me-2 mt-5"
+          className="btn btn-primary me-2 mt-5"
           onClick={handleSignOut}
         >
           Sign Out

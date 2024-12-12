@@ -156,7 +156,7 @@ const Favorites = () => {
                   style={{ borderRadius: "10px" }}
                 />
                 <Box>
-                  <Typography variant="h5" color="#198754">
+                  <Typography variant="h5" color="#007bff">
                     {productName}
                   </Typography>
                   <Typography variant="subtitle1" color="#666">
@@ -171,7 +171,7 @@ const Favorites = () => {
                 <Button
                   className="mb-3 outline-success"
                   variant="contained"
-                  color="success"
+                  style={{ backgroundColor: "#007bff", color: "#fff" }}
                   onClick={() => handleCart(id)}
                 >
                   Add to Cart
