@@ -158,7 +158,7 @@ function Events() {
 
   return (
     <div className="events-list-container">
-      <h1>Upcoming Events</h1>
+      <h1 style={{ textAlign: "center" }}>Upcoming Events</h1>
       <div className="events-list">
         {events.map((event) => (
           <EventCard
