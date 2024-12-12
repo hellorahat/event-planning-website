@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useUser } from "../utility/UserContext"; // Adjust the path based on your project structure
-import { firestore, auth, storage } from "../../firebase.js"; // Include storage
+import { useUser } from "../utility/UserContext"; 
+import { firestore, auth, storage } from "../../firebase.js"; 
 import {
   collection,
   addDoc,
@@ -10,13 +10,13 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Firebase Storage functions
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; 
 import { useNavigate } from "react-router-dom";
 import "../styles/PlanEvent.css";
 
 function PlanEvent() {
-  const { user, loading } = useUser(); // Get user from context
-  const navigate = useNavigate(); // Hook to programmatically navigate
+  const { user, loading } = useUser(); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (!loading && !user) {
@@ -28,7 +28,7 @@ function PlanEvent() {
     date: "",
     startTime: "",
     endTime: "",
-    host: user ? user.name : "", // Autofill host name from context if available
+    host: user ? user.name : "", 
     eventName: "",
     address: "",
     description: "",
@@ -53,17 +53,15 @@ function PlanEvent() {
   async function addEvent(e) {
     e.preventDefault();
     try {
-      // Step 1: Upload the image if provided
-      let imagePath = null; // This will hold the image path
+      let imagePath = null; 
       let imageUrl = null;
       if (image) {
-        imagePath = `images/${image.name}`; // Define the storage path (you can modify this as needed)
+        imagePath = `images/${image.name}`; 
         const imageRef = ref(storage, imagePath);
         await uploadBytes(imageRef, image); // Upload the image
         imageUrl = await getDownloadURL(imageRef);
       }
 
-      // Step 2: Add the event to the "events" collection
       const docRef = await addDoc(collection(firestore, "events"), {
         address: formData.address,
         date: formData.date,
@@ -72,12 +70,11 @@ function PlanEvent() {
         timeStart: formData.startTime,
         timeEnd: formData.endTime,
         host: formData.host,
-        url: imagePath, // Store the image path in the "url" field
+        url: imagePath, 
         photo: imageUrl,
       });
       console.log("Event created with ID: ", docRef.id);
 
-      // Step 3: Update the "registered-events" collection
       const userId = auth.currentUser.uid;
       const registeredEventsRef = collection(firestore, "registered-events");
       const userDocRef = doc(registeredEventsRef, userId);
@@ -94,8 +91,7 @@ function PlanEvent() {
       }
       console.log("Event added to registered-events collection");
 
-      // Step 4: Redirect to the events page
-      navigate("/events"); // Redirect to the events page
+      navigate("/events"); 
     } catch (e) {
       console.error("Error adding event: ", e);
     }

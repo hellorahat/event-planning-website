@@ -9,7 +9,7 @@ function OrderHistory() {
     const [orders, setOrders] = useState([]);
     const { user } = useUser();
     const storage = getStorage();
-    const [expandedOrders, setExpandedOrders] = useState({}); // Track expanded orders
+    const [expandedOrders, setExpandedOrders] = useState({}); 
 
     useEffect(() => {
         if (user?.uid) {
@@ -21,7 +21,7 @@ function OrderHistory() {
 
                     if (userOrdersSnapshot.exists()) {
                         const userOrders = userOrdersSnapshot.data();
-                        console.log("Fetched user orders:", userOrders); // Debug
+                        console.log("Fetched user orders:", userOrders); 
 
                         const fetchedOrders = await Promise.all(
                             Object.entries(userOrders).map(async ([orderId, products]) => {

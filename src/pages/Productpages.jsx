@@ -20,10 +20,10 @@ import { useAlerts } from "../utility/AlertContext.jsx";
 import "../styles/productpage.css";
 
 function Productpages() {
-  const { productId } = useParams(); // Retrieve productId from the route
+  const { productId } = useParams(); 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isSeller, setIsSeller] = useState(false); // Flag to check if the user is the seller
+  const [isSeller, setIsSeller] = useState(false); 
   const { user } = useUser();
   const { addAlert } = useAlerts();
   const navigate = useNavigate();
@@ -31,17 +31,17 @@ function Productpages() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const productRef = doc(firestore, "marketplace", productId); // Reference to the Firestore document
+        const productRef = doc(firestore, "marketplace", productId); 
         const productSnap = await getDoc(productRef);
         if (productSnap.exists()) {
-          setProduct(productSnap.data()); // Set product data to state
+          setProduct(productSnap.data()); 
         } else {
           console.error("No such product!");
         }
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false); 
       }
     };
 
@@ -87,7 +87,6 @@ function Productpages() {
       const favoriteDocRef = doc(firestore, "favorites", userId);
       const cartDocRef = doc(firestore, "cart", userId);
 
-      // Remove from favorites if exists
       const favoriteDoc = await getDoc(favoriteDocRef);
       if (favoriteDoc.exists()) {
         await updateDoc(favoriteDocRef, {
@@ -95,7 +94,6 @@ function Productpages() {
         });
       }
 
-      // Add to cart
       const cartDoc = await getDoc(cartDocRef);
       if (cartDoc.exists()) {
         await updateDoc(cartDocRef, {
@@ -117,19 +115,16 @@ function Productpages() {
     const userId = auth.currentUser.uid;
 
     try {
-      // Step 1: Delete product image from Firebase Storage
       if (product.url) {
         const imageRef = ref(storage, product.url);
         await deleteObject(imageRef);
         console.log("Image deleted from Firebase Storage");
       }
 
-      // Step 2: Delete product document from "marketplace" collection
       const productRef = doc(firestore, "marketplace", productId);
       await deleteDoc(productRef);
       console.log("Product deleted from 'marketplace' collection");
 
-      // Step 3: Remove productId from "registered-products" collection
       const registeredProductsRef = doc(
         firestore,
         "registered-products",
@@ -186,8 +181,8 @@ function Productpages() {
             <div className="imgcontainer">
               <img
                 className="prdctimg"
-                src={product.photo} // Single image from product
-                alt={product.productName} // Product name as alt text
+                src={product.photo} 
+                alt={product.productName} 
               />
             </div>
           </Card>

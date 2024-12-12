@@ -155,22 +155,18 @@ function Marketplace() {
       console.error("Error adding favorite: ", error);
     }
   };
-  // Function to remove a product from favorites
   const removeFavorite = async (productId) => {
     const userId = auth.currentUser.uid;
     console.log(userId, productId);
     if (!userId) return;
 
     try {
-      // Reference to the user's favorites document in "favorites" collection
       const userRef = doc(firestore, "favorites", userId);
 
-      // Update the user's favorites document by removing the product ID from "productIds"
       await updateDoc(userRef, {
-        productIds: arrayRemove(productId), // Remove the product ID from the "productIds" array
+        productIds: arrayRemove(productId), 
       });
 
-      // After removing from Firestore, update the local state to reflect the changes
       setFavorites((prevFavorites) =>
         prevFavorites.filter((favorite) => favorite.id !== productId)
       );
@@ -186,7 +182,6 @@ function Marketplace() {
       const favoriteDocRef = doc(firestore, "favorites", userId);
       const cartDocRef = doc(firestore, "cart", userId);
 
-      // Remove from favorites if exists
       const favoriteDoc = await getDoc(favoriteDocRef);
       if (favoriteDoc.exists()) {
         await updateDoc(favoriteDocRef, {
@@ -272,7 +267,7 @@ function Marketplace() {
                 className="favorite-btn"
                 onClick={() => handleFavorite(product.id)}
                 aria-label="Add to Favorites"
-                disabled={isSeller[product.id]} // Disable if the user is the seller
+                disabled={isSeller[product.id]} 
               >
                 <img
                   src={iconFavorite}
@@ -288,7 +283,7 @@ function Marketplace() {
                 className="cart-btn"
                 onClick={() => handleCart(product.id)}
                 aria-label="Add to Cart"
-                disabled={isSeller[product.id]} // Disable if the user is the seller
+                disabled={isSeller[product.id]} 
               >
                 <img
                   src={iconCart}
