@@ -109,7 +109,9 @@ const Favorites = () => {
       }
 
       removeFavorite(productId);
-      addAlert("Product has been added to the cart and removed from favorites.");
+      addAlert(
+        "Product has been added to the cart and removed from favorites."
+      );
     } catch (error) {
       console.error("Error adding product to cart: ", error);
     }
