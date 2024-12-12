@@ -1,4 +1,3 @@
-import "../styles/Login.css";
 import AccountMenu from "../components/AccountMenu";
 
 function Login() {
