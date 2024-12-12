@@ -183,18 +183,6 @@ function Events() {
                 const event = events.find((e) => e.id === eventId);
                 return event ? (
                   <div className="dropdown-item" key={event.id}>
-                    <button
-                      className="unregister-button"
-                      onClick={() =>
-                        handleDelete(
-                          event.id,
-                          event.host === user.name,
-                          event.url
-                        )
-                      }
-                    >
-                      Unregister{" "}
-                    </button>
                     <div className="event-info">
                       <h3 className="event-name">{event.name}</h3>
                       <p>
@@ -208,6 +196,18 @@ function Events() {
                         {event.timeEnd}
                       </p>
                     </div>
+                    <button
+                      className="unregister-button"
+                      onClick={() =>
+                        handleDelete(
+                          event.id,
+                          event.host === user.name,
+                          event.url
+                        )
+                      }
+                    >
+                      Unregister{" "}
+                    </button>
                   </div>
                 ) : null;
               })}
