@@ -1,7 +1,7 @@
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   doc,
   getDoc,
@@ -13,7 +13,7 @@ import {
 import CheckoutForm from "../components/CheckoutForm.jsx";
 import PaymentRequestButton from "../components/PaymentRequestButton";
 import ExpressCheckout from "../components/ExpressCheckout.jsx";
-import "../styles/Cart.css"
+import "../styles/Cart.css";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -22,7 +22,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
-    navigate('/checkout');
+    navigate("/checkout");
   };
 
   // Function to fetch user cart data from Firestore
@@ -151,7 +151,7 @@ const Cart = () => {
                   style={{ borderRadius: "10px" }}
                 />
                 <Box>
-                  <Typography variant="h5" color="#198754">
+                  <Typography variant="h5" color="#007bff">
                     {productName}
                   </Typography>
                   <Typography variant="subtitle1" color="#666">
@@ -191,7 +191,7 @@ const Cart = () => {
             onClick={handleCheckout}
           >
             Continue
-          </Button>          
+          </Button>
         </Box>
       )}
     </Box>
