@@ -306,6 +306,9 @@ function AccountSettings({
           <Link to="/order-history" className="links">
             <p>Order History</p>
           </Link>
+          <Link to="/account-products" className="links">
+            <p>Products</p>
+          </Link>
           <Link to="/payment-methods" className="links">
             <p>Payment Methods</p>
           </Link>
