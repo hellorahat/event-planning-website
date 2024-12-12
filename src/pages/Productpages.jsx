@@ -49,7 +49,7 @@ function Productpages() {
   return (
     <div>
       <Grid container spacing={0}>
-        <Grid sx={{ pl: 5, mb: 3 }} size={8}>
+        <Grid sx={{ pl: 5, mb: 3 }} size={{ xs: 12, sm: 8 }}>
           <Card sx={{ minWidth: 275 }}>
             {/* Display single product image */}
             <div className="carousel">
@@ -62,7 +62,7 @@ function Productpages() {
           </Card>
         </Grid>
 
-        <Grid sx={{ px: 5, mb: 3 }} size={4}>
+        <Grid sx={{ px: 5, mb: 3 }} size={{ xs: 12,sm:4}}>
           <div className="description">
             <h2>{product.productName}</h2>
             <hr />
