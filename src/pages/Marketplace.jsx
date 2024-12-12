@@ -187,6 +187,14 @@ function Marketplace() {
         onFilterChange={handleFilterChange}
       />
       <div className="product-listing">
+        <Link
+          to="/add-product"
+          style={{ textDecoration: 0, fontSize: "35px", textAlign: "center" }}
+        >
+          <button className="product-card add-product-card">
+            <span className="plus-icon">+</span> Add Product
+          </button>
+        </Link>
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <div key={product.id} className="product-card">
@@ -240,13 +248,6 @@ function Marketplace() {
           <p className="no-products">No products match your filters.</p>
         )}
       </div>
-
-      {/* Add Product Button */}
-      <Link to="/add-product">
-        <button className="add-product-btn">
-          <span className="plus-icon">+</span> Add Product
-        </button>
-      </Link>
     </div>
   );
 }
