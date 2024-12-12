@@ -222,8 +222,12 @@ function Marketplace() {
                 />
                 <h3 className="product-title">{product.productName}</h3>
                 <p className="product-brand">{product.brand}</p>
-                <p className="product-condition">{product.condition}</p>
-                <p className="product-price">${product.price}</p>
+                <p className="product-condition">
+                  Condition: {product.condition}
+                </p>
+                <p className="product-price" style={{ fontWeight: "bold" }}>
+                  ${product.price}
+                </p>
               </div>
 
               {/* Favorite Button */}
