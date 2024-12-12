@@ -1,14 +1,7 @@
-import { useMediaQuery } from "react-responsive";
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid2";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -221,20 +214,24 @@ function Productpages() {
             <hr />
             <form>
               <div className="button-stack">
-                <button
-                  type="button"
-                  className="btn btn-primary mb-2"
-                  onClick={() => handleCart(productId)}
-                >
-                  Add to cart
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary mb-2"
-                  onClick={() => handleFavorite(productId)}
-                >
-                  Add to favorites
-                </button>
+                {!isSeller && (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-primary mb-2"
+                      onClick={() => handleCart(productId)}
+                    >
+                      Add to cart
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary mb-2"
+                      onClick={() => handleFavorite(productId)}
+                    >
+                      Add to favorites
+                    </button>
+                  </>
+                )}
                 {isSeller && (
                   <button
                     type="button"
