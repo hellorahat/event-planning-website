@@ -1,25 +1,33 @@
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAlerts } from "../utility/AlertContext.jsx";
-import { firestore, auth } from "../../firebase.js"; // Assuming firebase.js is configured and exported
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { firestore, auth, storage } from "../../firebase.js";
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  arrayRemove,
+  deleteDoc,
+} from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
 
-function AccountProducts() {
-  const [accountProducts, setAccountProducts] = useState([]);
+const AccountProducts = () => {
+  const [products, setProducts] = useState([]);
   const [user, setUser] = useState(null); // Assume you have some way of setting the current user's ID
   const { addAlert } = useAlerts();
 
-  // Function to fetch user registered products from Firestore
-  const fetchAccountProducts = async (userId) => {
+  // Function to fetch user products from Firestore
+  const fetchProducts = async (userId) => {
     try {
-      // Get the user's registered products document from the "registered-products" collection
-      const userRef = doc(firestore, "registered-products", userId); // Reference to the user's document in "registered-products"
+      const userRef = doc(firestore, "registered-products", userId);
       const userDoc = await getDoc(userRef);
+
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        const registeredProductIds = userData.productIds || []; // Assuming "productIds" is an array of product IDs
+        const productIds = userData.productIds || [];
 
-        // Fetch product details from the "marketplace" collection using productIds
         const productQuery = collection(firestore, "marketplace");
         const productSnapshot = await getDocs(productQuery);
         const productMap = {};
@@ -27,32 +35,88 @@ function AccountProducts() {
         productSnapshot.forEach((doc) => {
           const product = doc.data();
           productMap[doc.id] = {
-            photo: product.photo, // Assuming photo is the field name for the product image
-            productName: product.productName, // Assuming productName is the field name
-            sellerName: product.sellerName, // Assuming sellerName is the field name
-            price: product.price, // Assuming price is the field name
+            photo: product.photo,
+            productName: product.productName,
+            sellerName: product.sellerName,
+            price: product.price,
           };
         });
 
-        // Get all registered products using the IDs and only the relevant fields
-        const registeredProducts = registeredProductIds.map((id) => ({
+        const userProducts = productIds.map((id) => ({
           id,
           ...productMap[id],
         }));
 
-        setAccountProducts(registeredProducts);
+        setProducts(userProducts);
       }
     } catch (error) {
-      console.error("Error fetching registered products: ", error);
+      console.error("Error fetching products: ", error);
+    }
+  };
+
+  // Function to remove a product from the user's registered products and marketplace
+  const handleRemoveProduct = async (productId) => {
+    if (!user) return;
+
+    try {
+      // Step 1: Delete product image from Firebase Storage
+      const productRef = doc(firestore, "marketplace", productId);
+      const productSnap = await getDoc(productRef);
+      const productData = productSnap.data();
+      if (productData && productData.photo) {
+        const imageRef = ref(storage, productData.photo);
+        await deleteObject(imageRef);
+        console.log("Image deleted from Firebase Storage");
+      }
+
+      // Step 2: Delete product document from the marketplace collection
+      await deleteDoc(productRef);
+      console.log("Product deleted from 'marketplace' collection");
+
+      // Step 3: Remove productId from the "registered-products" collection
+      const registeredProductsRef = doc(firestore, "registered-products", user);
+      const registeredProductsSnap = await getDoc(registeredProductsRef);
+      if (registeredProductsSnap.exists()) {
+        await updateDoc(registeredProductsRef, {
+          productIds: arrayRemove(productId),
+        });
+        console.log("Product removed from 'registered-products'");
+      }
+
+      // Step 4: Remove productId from favorites and cart (if exists)
+      const favoritesRef = doc(firestore, "favorites", user);
+      const favoritesSnap = await getDoc(favoritesRef);
+      if (favoritesSnap.exists()) {
+        await updateDoc(favoritesRef, {
+          productIds: arrayRemove(productId),
+        });
+        console.log("Product removed from 'favorites'");
+      }
+
+      const cartRef = doc(firestore, "cart", user);
+      const cartSnap = await getDoc(cartRef);
+      if (cartSnap.exists()) {
+        await updateDoc(cartRef, {
+          productIds: arrayRemove(productId),
+        });
+        console.log("Product removed from 'cart'");
+      }
+
+      addAlert("Product successfully removed.");
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== productId)
+      );
+    } catch (error) {
+      console.error("Error removing product: ", error);
+      addAlert("An error occurred while removing the product.");
     }
   };
 
   useEffect(() => {
-    // Replace with actual method of getting the current user ID
-    const userId = auth.currentUser.uid; // Replace with dynamic user ID
+    const userId = auth.currentUser?.uid;
     setUser(userId);
     if (userId) {
-      fetchAccountProducts(userId);
+      fetchProducts(userId);
     }
   }, [user]);
 
@@ -67,68 +131,64 @@ function AccountProducts() {
     >
       <Box width="80%" mb={4}>
         <Typography variant="h3" textAlign="center" color="#333">
-          Your Registered Products
+          Your Products
           <hr style={{ marginTop: "20px", marginBottom: "-30px" }} />
         </Typography>
       </Box>
-      {accountProducts.length > 0 ? (
+      {products.length > 0 ? (
         <Stack width="80%" spacing={3}>
-          {accountProducts.map(
-            ({ id, photo, productName, sellerName, price }) => (
-              <Box
-                key={id}
-                display="flex"
-                height={225}
-                justifyContent="space-between"
-                alignItems="center"
-                border="1px solid #ddd"
-                padding={3}
-                paddingBottom={5.5}
-                backgroundColor="white"
-                borderTop={0}
-                borderLeft={0}
-                borderRight={0}
-              >
-                <Box display="flex" alignItems="center" gap={3}>
-                  <img
-                    src={photo}
-                    alt={productName}
-                    width="200px"
-                    height="200px"
-                    style={{ borderRadius: "10px" }}
-                  />
-                  <Box>
-                    <Typography variant="h5" color="#007bff">
-                      {productName}
-                    </Typography>
-                    <Typography variant="subtitle1" color="#666">
-                      Seller: {sellerName}
-                    </Typography>
-                    <Typography variant="subtitle2" color="#999">
-                      Price: {price}
-                    </Typography>
-                  </Box>
+          {products.map(({ id, photo, productName, sellerName, price }) => (
+            <Box
+              key={id}
+              display="flex"
+              height={225}
+              justifyContent="space-between"
+              alignItems="center"
+              border="1px solid #ddd"
+              padding={3}
+              paddingBottom={5.5}
+              backgroundColor="white"
+              borderTop={0}
+              borderLeft={0}
+              borderRight={0}
+            >
+              <Box display="flex" alignItems="center" gap={3}>
+                <img
+                  src={photo}
+                  alt={productName}
+                  width="200px"
+                  height="200px"
+                  style={{ borderRadius: "10px" }}
+                />
+                <Box>
+                  <Typography variant="h5" color="#007bff">
+                    {productName}
+                  </Typography>
+                  <Typography variant="subtitle1" color="#666">
+                    Seller: {sellerName}
+                  </Typography>
+                  <Typography variant="subtitle2" color="#999">
+                    Price: {price}
+                  </Typography>
                 </Box>
-                <div className="d-flex flex-column justify-content-center">
-                  <Button
-                    variant="contained"
-                    color="error"
-                    // Add additional functionality for removing or editing the product here
-                  >
-                    Remove Product
-                  </Button>
-                </div>
               </Box>
-            )
-          )}
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleRemoveProduct(id)}
+              >
+                Remove Product
+              </Button>
+            </Box>
+          ))}
         </Stack>
       ) : (
         <Typography variant="h6" color="#666">
-          You have not registered any products yet.
+          You have no products listed yet.
         </Typography>
       )}
     </Box>
   );
-}
+};
 
 export default AccountProducts;
