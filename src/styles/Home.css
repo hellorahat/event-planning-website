@@ -19,13 +19,13 @@
 }
 
 .d-block {
-  opacity: 60%;
+  opacity: 30%;
   height: 500px;
   object-fit: cover;
 }
 
 .carousel-text {
-  font-family: "Italianno";
+  font-family: "Luckiest Guy";
   font-size: 100px;
   align-items: center;
   justify-content: center;
@@ -34,16 +34,15 @@
 
 .caption1 {
   text-align: center;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  padding: 25px 25px 25px 25px;
+  font-family: "Ledger";
+  padding: 25px 25px 10px 25px;
+  font-size: 50px;
 }
 
 .caption2 {
   text-align: center;
   line-height: 50px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Ledger";
   padding: 25px 150px 25px 150px;
 }
 
@@ -53,9 +52,8 @@
   color: black;
   font-size: 50px;
   outline-color: white;
-  background-color: gray;
+  background-color: white;
   border-radius: 10px;
   padding: 15px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Patrick Hand";
 }
