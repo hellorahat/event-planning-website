@@ -154,7 +154,7 @@ const Favorites = () => {
                   src={photo}
                   alt={productName}
                   style={{
-                    width: "100%",
+                    width: "200px",
                     height: "200px",
                     objectFit: "cover",
                     borderRadius: "8px",
